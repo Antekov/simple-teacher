@@ -93,8 +93,8 @@ define('T_USERS',					'users');
 define('T_COMMENTS',				'comments');
 define('T_ATTACHMENTS',				'attachments');
 
-define('T_ORDERS',					'orders');
-define('T_ORDERS_LOG',				'orders_log');
+define('T_LESSONS',					'lessons');
+define('T_LESSONS_LOG',				'lessons_log');
 define('T_ORDERS_ITEMS',			'orders_items');
 
 define('T_FINANCES',				'finances');

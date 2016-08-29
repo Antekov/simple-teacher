@@ -28,34 +28,6 @@ $(document).ready(function(){
  } );
 });
 
-g.init_layout = function(){
-	g.clock();
-	if( $('.layout_menu').length > 0 ){
-		$('.layout_menu').height( $(window).height() - $('.layout_menu').offset().top );
-		$('.splitter').height( $(window).height() - $('.splitter').offset().top );
-        $('.layout_header').width( $(window).width() - $('.layout_menu').width() - $('.splitter').width());
-        $('.layout_body .layout_content').css('top' , $('.layout_body .layout_header').height()+'px');
-        $('.layout_content').height( $(window).height() - $('.layout_content').offset().top );
-		$('.logo').css('top', $(window).height() - 50 );
-	}
-};
-
-g.clock = function(){
-	g.tick_tock();
-	setInterval( g.tick_tock, 1000 );
-};
-
-g.tick_tock = function(){
-	var today = new Date();
-	//console.log( today.getHours() +':'+today.getMinutes()  );
-	var h = today.getHours();
-	if( h < 10 ) h = '0'+h;
-
-	var m = today.getMinutes();				
-	if( m < 10 ) m = '0'+m;
-	
-	$('.clock-time').html( h +':'+m );
-};
 
 g.alert = function(message, func, args, params){
 	params = params || {};
@@ -376,21 +348,3 @@ jQuery.fn.numericOnly = function(){
         });
     });
 };
-
-var _on_ohstname_callbacks = [];
-function onHostname(func) {
-	_on_ohstname_callbacks.push(func);
-}
-$(document).ready(function() {
-	$('head').bind('DOMSubtreeModified', function() {
-		var $h = $('hostname');
-		if ($h && $h.html() != '' && $h.html() != null ) {
-			var hostname = $h.html();
-			for ( i in _on_ohstname_callbacks ) {
-				if (jQuery.isFunction(_on_ohstname_callbacks[i])) {
-					_on_ohstname_callbacks[i](hostname);
-				}
-			}
-		} 
-	});
-});

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Client extends CI_Controller {
+class Lesson extends CI_Controller {
 
 	public function __construct() {
 
@@ -13,7 +13,7 @@ class Client extends CI_Controller {
 		$this->load->model('client_model');
 		$this->load->model('lesson_model');
 
-		$this->stash['js'] = array('modules/clients.js');
+		$this->stash['js'] = array('modules/lessons.js');
 
 		$this->stash['statuses'] = client_model::$statuses;
 
@@ -39,11 +39,7 @@ class Client extends CI_Controller {
 
 	public function index($filter = 'all') {
 		$this->stash['header_title'] = array(
-			array('name' => '<i class="fa fa-users"></i> Ученики')
-		);
-
-		$this->stash['header_buttons'] = array(
-			array('name' => '<i class="fa fa-plus"></i>', 'click' => 'clients.open(0)')
+			array('name' => '<i class="fa fa-bell-o"></i> Занятия')
 		);
 
 		$data = array();
@@ -73,32 +69,34 @@ class Client extends CI_Controller {
 			}
 		}
 
-		$this->stash['clients'] = $this->client_model->get($data);
-		$this->load->view('modules/client/index', $this->stash);
+		$this->stash['lessons'] = $this->lesson_model->get($data);
+		$this->load->view('modules/lesson/index', $this->stash);
 	}
 
 	public function edit($id) {
-		if ($id) {
-			$client = $this->client_model->get_by_id($id);
-		} else {
-			$client = $this->client_model->default_fields_values;
-		}
 		$this->stash['header_title'] = array(
-			array('name' => '<i class="fa fa-users"></i> Ученики'),
-			array('name' => '<i class="fa fa-angle-right"></i> <span class="ct-name j-client-name">'.(!empty($client['name']) ? $client['name'] : 'Новый').'<span>')
+			array('name' => '<i class="fa fa-bell-o"></i> Занятия')
 		);
 
-		$this->stash['header_buttons'] = array(
-			array('name' => '<i class="fa fa-save"></i>', 'click' => 'clients.save(clients.id)')
-		);
 
-		$this->stash['client'] = $client;
+		if ($id) {
+			$lesson = $this->lesson_model->get_by_id($id);
+		} else {
+			$lesson = array('id' => 0, 'user_id' => $this->auth->user['id'], 'description' => '', 'address' => '', 'phones' => array(),
+				'sid' => md5(time().getmypid()),
+				'login' => '', 'email' => '',
+				'status' => 0,
+				'data' => array('delivery_id' => 0)
+			);
+		}
+
+		$this->stash['lesson'] = $lesson;
 		//$this->stash['lessons'] = $this->lesson_model->get(array('client_id' => $id, 'order_by' => 'o.delivery_date DESC'));
 		//$this->stash['lesson_statuses'] = lesson_model::$statuses;
 
 		//$this->stash['wrapper'] = 'popup';
 
-		$this->load->view('modules/client/edit', $this->stash);
+		$this->load->view('modules/lesson/edit', $this->stash);
 	}
 }
 

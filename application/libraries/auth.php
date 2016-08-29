@@ -39,7 +39,7 @@ class auth {
 					if(!empty($this->user['home_url'])){
 						redirect(uri_string());
 					} else {
-						redirect('dashboard');
+						redirect('/dashboard');
 					}
 					die(
 						$this->ci->template->get('authentication/access_denied')
@@ -51,7 +51,7 @@ class auth {
 			}
 		}
 
-		redirect('login');
+		redirect('/login');
 
 	}
 

@@ -7,10 +7,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Просто-репетитор</title>
 	<script type="text/javascript" src="/js/jquery.js"></script>
-	<script type="text/javascript" src="/js/jquery-ui-1.8.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/js/common.js"></script>
 	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/css/fonts.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/jquery-ui.theme.css"/>
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css"/>
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.css"/>

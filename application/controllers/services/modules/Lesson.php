@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Client extends CI_Controller {
+class Lesson extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -37,8 +37,8 @@ class Client extends CI_Controller {
 		$json = array('success' => 1);
 		$data = $this->input->get(NULL, true);
 		try {
-			$json['items'] = $this->connection_model->get($data);
-			$json['total'] = $this->connection_model->total($data);
+			$json['items'] = $this->lesson_model->get($data);
+			$json['total'] = $this->lesson_model->total($data);
 			$json['type'] = 'array';
 			$json['data_type'] = 'connection';
 		} catch (Exception $e) {
@@ -52,10 +52,14 @@ class Client extends CI_Controller {
 
 	public function edit($id) {
 		if ($id) {
-			$client = $this->client_model->get_by_id($id);
+			$client = $this->lesson_model->get_by_id($id);
 		} else {
-			$client = $this->client_model->default_field_values;
-
+			$client = array('id' => 0, 'name' => '', 'description' => '', 'address' => '', 'phones' => array(),
+				'sid' => md5(time().getmypid()),
+				'login' => '', 'email' => '',
+				'status' => 0,
+				'data' => array('delivery_id' => 0)
+			);
 		}
 
 		$this->stash['client'] = $client;
@@ -72,16 +76,8 @@ class Client extends CI_Controller {
 		$data = $this->input->post(null, true);
 
 		if ($data !== false) {
-			$data['create_date'] = (!empty($data['create_date']) ? date('Y-m-d H:i:s', strtotime($data['create_date'])) : date('Y-m-d H:i:s'));
 
-			// Убираем пустых телефоны
-			foreach ($data['phones'] as $i => $phone) {
-				if (empty($phone)) { unset($data['phones'][$i]); }
-			}
-
-			$data['phones'] = json_encode_fixed($data['phones']);
-
-			$data = $this->client_model->save($data);
+			$data = $this->lesson_model->save($data);
 
 			$this->stash['json'] = array(
 				'status' => 1,

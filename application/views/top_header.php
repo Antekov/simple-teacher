@@ -6,10 +6,13 @@ if (empty($header_title)) { $header_title = array(); }
 	<div class="th-left">
 		<div class="th-button j-left-menu-button"><i class="fa fa-bars"></i></div>
 		<div class="th-button j-top-back-button"><i class="fa fa-angle-left"></i></div>
+		<? if (!empty($header_buttons)) { foreach ($header_buttons as $hb) { ?>
+			<div class="th-button" onclick="<?=$hb['click']?>"><?=$hb['name']?></div>
+		<? }} ?>
 	</div>
 	<div>
 		<? foreach ($header_title as $ht) { ?>
-		<div class="th-button1"><?=$ht['name']?></div>
+		<div class="th-title"><?=$ht['name']?></div>
 		<? } ?>
 	</div>
 	<div class="th-right">

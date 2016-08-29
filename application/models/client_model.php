@@ -8,7 +8,8 @@
  */
 class Client_model extends CI_Model
 {
-	var $fields = array('id', 'name', 'address', 'phones', 'description', 'email', 'skype', 'status', 'login');
+	var $fields = array('id', 'name', 'address', 'phones', 'description', 'email', 'skype', 'status', 'login', 'external_id', 'create_date', 'place');
+	var $default_fields_values;
 	var $is_admin = false;
 
 	const S_DRAFT		= 0;
@@ -24,6 +25,8 @@ class Client_model extends CI_Model
 		3 => 'Выполнен',
 		4 => 'Приостановлен'
 	);
+
+
 
 	static $status_changes = array(
 		client_model::S_DRAFT => array(
@@ -63,6 +66,18 @@ class Client_model extends CI_Model
 		if (isset($this->auth->user['groups'])) {
 			$this->is_admin = in_array('1', $this->auth->user['groups']);
 		}
+
+		$this->load->model('user_model');
+
+		$this->default_fields_values = array(
+			'id' => 0, 'name' => '', 'description' => '', 'address' => '', 'phones' => array(),
+			'place' => 0,
+			'sid' => md5(time().getmypid()),
+			'login' => '', 'email' => '', 'skype' => '', 'external_id' => '',
+			'status' => 0,
+			'create_date' => date('m.d.Y'),
+			'data' => array('cost' => '600', 'duration' => '90', 'tax' => '')
+		);
 	}
 
 	public function get($data = array()) {
@@ -74,10 +89,6 @@ class Client_model extends CI_Model
 			$this->db->where('t.parent_id', intval($data['parent_id']));
 		}
 
-		if (isset($data['is_group'])) {
-			$this->db->where('t.is_group', intval($data['is_group']));
-		}
-
 		if (isset($data['status'])) {
 			$this->db->where_in('t.status', (array) $data['status']);
 		}
@@ -85,38 +96,10 @@ class Client_model extends CI_Model
 		$this->db
 			->select('t.*')
 			->from(T_CLIENTS.' AS t')
-			->order_by('t.address, t.name');
+			->where('t.user_id', $this->auth->user['id'])
+			->order_by('t.create_date DESC, t.address, t.name');
 
 		$clients = array_to_assoc($this->db->get()->result_array(), 'id');
-
-		if (empty($data['not_tree'])) {
-
-			$ids = array();
-			foreach ($clients as $client) {
-				if (!isset($clients[$client['parent_id']])) {
-					$ids[] = $client['parent_id'];
-				}
-			}
-
-			if (!empty($ids)) {
-				$this->db
-					->select('t.*')
-					->from(T_CLIENTS.' AS t')
-					->where_in('t.id', $ids)
-					->order_by('t.name');
-
-				$clients += array_to_assoc($this->db->get()->result_array(), 'id');
-			}
-
-			$this->docs = $clients;
-			$clients = $this->get_tree();
-
-			if (!empty($ids) && empty($data['with_parents'])) {
-				foreach ($ids as $id) {
-					unset($clients[$id]);
-				}
-			}
-		}
 
 		foreach ($clients as $id => $client) {
 			$clients[$id]['data'] = json_decode($client['data'], true);
@@ -127,41 +110,6 @@ class Client_model extends CI_Model
 		}
 
 		return $clients;
-	}
-
-	public function get_tree($parent_id = 0, $name = '', $level = 0) {
-		$docs = array();
-		if (count($this->docs)) {
-			foreach ($this->docs as $id => $doc) {
-				//if (!isset($docs['children'])) { $docs[$id]['children'] = array(); }
-
-				if ($doc['parent_id'] == $parent_id) {
-					$doc['parents'] = array($parent_id);
-					$doc['full_title'] = $name.(empty($name) ? '' : ' / ').$doc['name'];
-					$doc['level'] = $level;
-					$doc['children'] = array();
-					$doc['count_items'] = 0;
-
-					// Удаляем из временного массива
-					unset($this->docs[$id]);
-					// Выбираем наследников
-					$docs[$id] = $doc;
-
-					$children = $this->get_tree($doc['id'], $doc['full_title'], $level+1);
-					if (count($children)) {
-						foreach ($children as $child_id => $child) {
-							$docs[$child_id] = $child;
-							array_push($docs[$child_id]['parents'], $parent_id);
-							$docs[$id]['count_items'] += 1;
-							$docs[$id]['children'] = array_merge($docs[$id]['children'], array($child_id), $docs[$child_id]['children']);
-						}
-					}
-
-					$docs[$id]['children'] = array_values(array_unique($docs[$id]['children']));
-				}
-			}
-		}
-		return $docs;
 	}
 
 	public function search($value) {
@@ -367,6 +315,7 @@ class Client_model extends CI_Model
 		}
 
 		if ($data['id'] == 0) {
+			$data['user_id'] = $this->auth->user['id'];
 			$this->db->insert(T_CLIENTS, $data);
 			$data['id'] = $this->db->insert_id();
 		} else {
@@ -376,8 +325,15 @@ class Client_model extends CI_Model
 			$data['id'] = $id;
 		}
 
-		if (isset($all_data['data']['delivery_id'])) {
-			$this->save_data($data['id'], 'delivery_id', $all_data['data']['delivery_id']);
+		if (isset($all_data['data']['cost'])) {
+			$this->save_data($data['id'], 'cost', $all_data['data']['cost']);
+		}
+
+		if (isset($all_data['data']['duration'])) {
+			$this->save_data($data['id'], 'duration', $all_data['data']['duration']);
+		}
+		if (isset($all_data['data']['cost'])) {
+			$this->save_data($data['id'], 'cost', $all_data['data']['cost']);
 		}
 		/*
 		if ($staff_groups !== false) {
@@ -398,6 +354,7 @@ class Client_model extends CI_Model
 		$user = $this->get_by_id($id);
 
 		if (!empty($user)) {
+			$data = $user['data'];
 			$data[$key] = $value;
 			$this->db->where('id', $id)->update(T_CLIENTS, array('data' => json_encode_fixed($data)));
 		}
