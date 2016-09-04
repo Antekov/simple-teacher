@@ -35,7 +35,7 @@
 			<div class="field-title">E-mail</div>
 			<div class="input-group input-group-lg">
 				<span class="input-group-addon" id="basic-addon-email"><i class="fa fa-envelope-o"></i></span>
-				<input type="text" class="form-control" name="email" value="<?=$client['email']?>" placeholder="E-mail" aria-describedby="basic-addon-email">
+				<input type="email" class="form-control" name="email" value="<?=$client['email']?>" placeholder="E-mail" aria-describedby="basic-addon-email">
 			</div>
 		</div>
 		<div class="col-md-4">
@@ -116,14 +116,14 @@
 			<div class="field-title">Дата создания</div>
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-calendar"></i></span>
-				<input type="text" class="form-control" name="create_date" value="<?=unix_to_human($client['create_date'], 'd.m.Y')?>" placeholder="Дата создания" aria-describedby="basic-addon-skype">
+				<input type="date" class="form-control" name="create_date" value="<?=date('Y-m-d', strtotime($client['create_date']))?>" placeholder="Дата создания" aria-describedby="basic-addon-skype">
 			</div>
 		</div>
 		<div class="col-md-4">
 			<div class="field-title">Ставка</div>
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-money"></i></span>
-				<input type="text" class="form-control" name="data[cost]" value="<?=$client['data']['cost']?>" placeholder="Ставка" aria-describedby="basic-addon-skype">
+				<input type="number" class="form-control" name="data[cost]" value="<?=$client['data']['cost']?>" placeholder="Ставка" aria-describedby="basic-addon-skype">
 				<div class="input-group-btn">
 					<div class="input-group-btn">
 						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"  tabindex="-1"> <span class="client-data-duration"><?=$client['data']['duration']?></span> мин. </button>
@@ -142,12 +142,24 @@
 			</div>
 
 		</div>
-	</div>
+		<div class="col-md-4">
+			<div class="field-title">Цена заказа</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-times"></i></span>
+				<input type="number" class="form-control" name="data[tax]" value="<?=(!empty($client['data']['tax']) ? $client['data']['tax'] : '')?>" placeholder="Цена заказа">
 			</div>
-			<div class="tab-pane" id="lessons">Занятия</div>
-		<div class="tab-pane" id="shedule">Расписание</div>
 		</div>
+	</div>
 
+			</div>
+		<div class="tab-pane" id="lessons">
+			<? $this->load->view('services/client/lesson/list', $this->stash); ?>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/0/<?=$client['id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })">
+				<i class="fa fa-plus"></i> Добавить
+			</button>
+		</div>
+		<div class="tab-pane" id="shedule">Расписание</div>
+	</div>
 </form>
 
 <script type="text/javascript">

@@ -2,6 +2,7 @@ var g = new function(){
 	
 };
 
+/*
 var skip_key_codes = {
 	9: 'tab',
 	16:'shift',
@@ -28,7 +29,7 @@ $(document).ready(function(){
  } );
 });
 
-
+*/
 g.alert = function(message, func, args, params){
 	params = params || {};
 	var window_id = g.dialog($.extend({id: (params.id || undefined)}, {

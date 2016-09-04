@@ -13,9 +13,9 @@ class Client extends CI_Controller {
 		$this->load->model('client_model');
 		$this->load->model('lesson_model');
 
-		$this->stash['js'] = array('modules/clients.js');
+		$this->stash['js'] = array('modules/clients.js', 'modules/lessons.js');
 
-		$this->stash['statuses'] = client_model::$statuses;
+		$this->stash['client_statuses'] = client_model::$statuses;
 
 		$this->filters = $this->auth->data->filters;
 		$this->stash['user'] = $this->auth->user;
@@ -93,8 +93,8 @@ class Client extends CI_Controller {
 		);
 
 		$this->stash['client'] = $client;
-		//$this->stash['lessons'] = $this->lesson_model->get(array('client_id' => $id, 'order_by' => 'o.delivery_date DESC'));
-		//$this->stash['lesson_statuses'] = lesson_model::$statuses;
+		$this->stash['lessons'] = $this->lesson_model->get(array('client_id' => $id, 'order_by' => 'o.start_date DESC'));
+		$this->stash['lesson_statuses'] = lesson_model::$statuses;
 
 		//$this->stash['wrapper'] = 'popup';
 

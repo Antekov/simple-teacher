@@ -1,19 +1,50 @@
 var lessons = new function() {
 	this.id = 0;
-		
+	var self = this;
+
+
+
 	this.init = function() {
-		$('#users').html('<div class="loading" style="z-index: 0;"><div class="spinner">Загружаем данные</div></div>');
-		$.get('/user/get/', function(data){
-			$('#users').html(data.result);
+		$('#lessons').html('<div class="loading"><i class="fa fa-spin fa-spinner"></i>Загружаем данные</div></div>');
+
+		$.post('/services/lesson/get',
+			$('.j-lessons-dates-form').serialize(),
+			function(data){
+				$('#lessons').html(data.result);
+			}
+		);
+	};
+
+	this.init_form = function() {
+		$('[type="week"]').change(function() {
+			self.init();
 		});
+
+
+		var form = $('.lesson-form');
+		if (form.length) {
+			var place = 0;
+
+			self.changeDate = function () {
+				$('[name="start_date"]', form).val(
+					$('.lf-date-input').val() + ' ' + $('.lf-time-input').val()
+				)
+			};
+
+			$('.lf-date-input, .lf-time-input', form).on('change, keyup', self.changeDate);
+
+			$('.lf-date-input')[0].focus();
+		}
 	};
 	
-	this.open = function(client_id) {
-		g.go({url: '/lesson/edit/'+client_id});
+	this.open = function(lesson_id, client_id) {
+		var client_id = client_id || '';
+		g.go({url: '/lesson/edit/'+lesson_id+'/'+client_id});
 	};
 	
-	this.close = function(user_id) {
-		g.go({url: '/lesson/?id='+user_id});
+	this.close = function(client_id) {
+		//g.go({url: '/lesson/?id='+user_id});
+		g.go({url: '/client/edit/'+client_id+'#lessons'});
 	}
 	
 	this.save = function(d) {
@@ -32,7 +63,7 @@ var lessons = new function() {
 				if (data.status == 1) {
 					
 					//projects.init();
-					lessons.close(data.id);
+					lessons.close(data.client_id);
 				}
 				
 			},
@@ -41,7 +72,7 @@ var lessons = new function() {
 	}
 	
 	this.status = function(status) {
-		var url = '/user/status/'+this.id+'/'+status+'/';
+		var url = '/lesson/status/'+this.id+'/'+status+'/';
 		
 		g.overlay(true);
 		
@@ -50,6 +81,7 @@ var lessons = new function() {
 			url: url,
 			success: function(data) {
 				if (data.status == 1) {
+
 					users.replace(users.id);
 				}
 				

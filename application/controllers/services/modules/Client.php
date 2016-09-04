@@ -59,8 +59,8 @@ class Client extends CI_Controller {
 		}
 
 		$this->stash['client'] = $client;
-		//$this->stash['lessons'] = $this->lesson_model->get(array('client_id' => $id, 'order_by' => 'o.delivery_date DESC'));
-		//$this->stash['lesson_statuses'] = lesson_model::$statuses;
+		$this->stash['lessons'] = $this->lesson_model->get(array('client_id' => $id, 'order_by' => 'o.delivery_date DESC'));
+		$this->stash['lesson_statuses'] = lesson_model::$statuses;
 
 		//$this->stash['wrapper'] = 'popup';
 

@@ -1,29 +1,15 @@
-<div class="">
-	<table class="lesson list-table zebra">
-		<tr>
-			<th>Имя</th>
-			<th>Телефон</th>
-			<th>Адрес</th>
-			<th>Описание</th>
-			<th>Действия</th>
-		</tr>
-	<? foreach ($lessons as $lesson) { ?>
-		<tr class="status-<?=$lesson['status']?>">
-			<td onclick="lessons.open('<?=$lesson['id']?>')">
-				<div class="lt-date"><?=unix_to_human($lesson['start_date'], 'd mnth %Y')?></div>
-				<div class="lt-time"><?=unix_to_human($lesson['start_date'], 'H:i')?></div>
-			</td>
-			<td class=""><?=$lesson['name']?></td>
-			<td><span class="status-title"><?=$lesson['status']?></td>
-
-			<td class=""><?=$lesson['duration']?></td>
-			<td class=""><?=$lesson['total_cost']?></td>
-			<td class=""><?=$lesson['client_id']?></td>
-			<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientEditModal" onclick="$('#clientEditModal .modal-body').html(''); $.get('/services/client/edit/<?=$lesson['id']?>/', function(html) { $('#clientEditModal .modal-body').html(html); })">
-					...
-				</button></td>
-		</tr>
-	<? } ?>
-	</table>
+<form class="j-lessons-dates-form" method="post" onsubmit="lessons.init(); return false;">
+	<div class="" style="text-align:center">
+		<!-- <span class=""><i class="fa fa-angle-double-left"></i></span>
+		<span class=""><i class="fa fa-angle-left"></i></span> -->
+		<input class="ld-week-input" style="text-align: center" type="week" name="week" value="<?=date('Y-\WW', strtotime((!empty($filters['date_from']) ? $filters['date_from'] : date('Y-m-d'))))?>">
+		<!-- <span class=""><i class="fa fa-angle-right"></i></span>
+		<span class=""><i class="fa fa-angle-double-right"></i></span> -->
 	</div>
-
+</form>
+<div id="lessons" class="">
+</div>
+<script>
+	lessons.init_form();
+	lessons.init();
+</script>

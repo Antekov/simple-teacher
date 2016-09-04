@@ -14,16 +14,16 @@ class Client_model extends CI_Model
 
 	const S_DRAFT		= 0;
 	const S_ACTIVE		= 1;
-	const S_CANCELED	= 2;
+	const S_PAUSED		= 2;
 	const S_COMPLETE	= 3;
-	const S_PAUSED		= 4;
+	const S_CANCELED	= 4;
 
 	static $statuses = array(
 		0 => 'Необработан',
-		1 => 'Принят',
-		2 => 'Отменен',
+		1 => 'В работе',
+		4 => 'Отменен',
 		3 => 'Выполнен',
-		4 => 'Приостановлен'
+		2 => 'Приостановлен'
 	);
 
 
@@ -75,7 +75,7 @@ class Client_model extends CI_Model
 			'sid' => md5(time().getmypid()),
 			'login' => '', 'email' => '', 'skype' => '', 'external_id' => '',
 			'status' => 0,
-			'create_date' => date('m.d.Y'),
+			'create_date' => date('d.m.Y'),
 			'data' => array('cost' => '600', 'duration' => '90', 'tax' => '')
 		);
 	}
@@ -97,7 +97,7 @@ class Client_model extends CI_Model
 			->select('t.*')
 			->from(T_CLIENTS.' AS t')
 			->where('t.user_id', $this->auth->user['id'])
-			->order_by('t.create_date DESC, t.address, t.name');
+			->order_by('t.status ASC, t.create_date DESC, t.address, t.name');
 
 		$clients = array_to_assoc($this->db->get()->result_array(), 'id');
 
@@ -334,6 +334,10 @@ class Client_model extends CI_Model
 		}
 		if (isset($all_data['data']['cost'])) {
 			$this->save_data($data['id'], 'cost', $all_data['data']['cost']);
+		}
+
+		if (isset($all_data['data']['tax'])) {
+			$this->save_data($data['id'], 'tax', $all_data['data']['tax']);
 		}
 		/*
 		if ($staff_groups !== false) {

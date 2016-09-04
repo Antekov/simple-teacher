@@ -13,7 +13,7 @@ class Lesson extends CI_Controller {
 		$this->load->model('client_model');
 		$this->load->model('lesson_model');
 
-		$this->stash['js'] = array('modules/lessons.js');
+		$this->stash['js'] = array('modules/lessons.js', 'modules/clients.js');
 
 		$this->stash['statuses'] = client_model::$statuses;
 
@@ -42,6 +42,8 @@ class Lesson extends CI_Controller {
 			array('name' => '<i class="fa fa-bell-o"></i> Занятия')
 		);
 
+		$filters = (isset($this->filters['lesson'])) ? $this->filters['lesson'] : array();
+
 		$data = array();
 
 		switch ($filter) {
@@ -65,13 +67,20 @@ class Lesson extends CI_Controller {
 
 			default: {
 				$data['status'] = array(1);
+
 				break;
 			}
 		}
+		$this->stash['filters'] = $filters;
+
+		$data['date_from'] = date('Y-m-d', time() - (24*3600*(date('w') - 1)));
+		$data['date_to'] = date('Y-m-d', time() + (24*3600*(8 - date('w'))));
 
 		$this->stash['lessons'] = $this->lesson_model->get($data);
 		$this->load->view('modules/lesson/index', $this->stash);
 	}
+
+
 
 	public function edit($id) {
 		$this->stash['header_title'] = array(

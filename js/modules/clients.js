@@ -15,7 +15,7 @@ var clients = new function() {
 
 		$('.cf-field-place', c).change();
 
-		$('[name*="_date"]', c).datepicker({
+		$('[name*="_date1"]', c).datepicker({
 			dateFormat: 'dd.mm.yy',
 			monthNames: [ "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" ],
 			dayNamesMin: [ "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб" ],

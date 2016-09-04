@@ -5,6 +5,7 @@
 		<th>Телефон</th>
 		<th>Адрес</th>
 		<th>Ставка</th>
+		<th>Статус</th>
 		<th>Действия</th>
 	</tr>
 <? $i=1; foreach ($clients as $client) { ?>
@@ -19,7 +20,11 @@
 		<td class=""><?=(!empty($client['phones'][0]) ? $client['phones'][0] : '')?><br><span class="cd-description"><?=$client['description']?></span></td>
 		<td class=""><?=$client['address']?></td>
 		<td><span class="cd-cost"><span class="cdc-cost"><?=$client['data']['cost']?> <span class="cd-currency">руб.</span></span><span class="cdc-duration"><?=$client['data']['duration']?> <span class="cd-currency">мин.</span></span></span></td>
-		<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientEditModal" onclick="$('#clientEditModal .modal-body').html(''); $.get('/services/client/edit/<?=$client['id']?>/', function(html) { $('#clientEditModal .modal-body').html(html); })">
+		<td>
+			<span class="cd-status cd-status-<?=$client['status']?>" title="<?=$client_statuses[$client['status']]?>"></span>
+		</td>
+		<td>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#clientEditModal" onclick="$('#clientEditModal .modal-body').html(''); $.get('/services/client/edit/<?=$client['id']?>/', function(html) { $('#clientEditModal .modal-body').html(html); })">
 				...
 			</button></td>
 	</tr>

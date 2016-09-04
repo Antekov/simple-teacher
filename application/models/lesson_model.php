@@ -8,20 +8,20 @@
 */	
 class Lesson_model extends CI_Model
 {
-	static $fields = array('id', 'client_id', 'duration', 'status', 'start_date', 'cost', 'data');
+	static $fields = array('id', 'client_id', 'place', 'duration', 'status', 'start_date', 'cost', 'data');
 	
 	const S_DRAFT		= 0;
 	const S_ACTIVE		= 1;
-	const S_CANCELED	= 2;
-	const S_COMPLETE	= 3;
+	const S_CANCELED	= 3;
+	const S_COMPLETE	= 2;
 	const S_PAUSED		= 4;
 	
 	static $statuses = array(
 		0 => 'Необработано',
 		1 => 'Назначено',
-		2 => 'Отменено',
-		3 => 'Проведено',
-		4 => 'Приостановлен'
+		2 => 'Проведено',
+		3 => 'Отменено',
+		4 => 'Не оплачено'
 	);
 	
 	static $status_changes = array(
@@ -51,8 +51,7 @@ class Lesson_model extends CI_Model
 	);
 	
 	var $default_data = array();
-	
-	var $deliveries = array();
+
 	/**
 	 * __construct function.
 	 * 
@@ -61,10 +60,9 @@ class Lesson_model extends CI_Model
 	 */		
 	function __construct() {
 		parent::__construct();
-		//$this->load->model('catalog_model');
+		$this->load->model('client_model');
 		
-		$this->deliveries = $this->get_deliveries();
-		$this->default_data = array('delivery_id' => 0, 'delivery_price' => $this->deliveries[0]['price'], 'items_total_price' => 0, 'total_price' => 0, 'combine_items' => 1);
+		$this->default_data = array();
 		
 		//$this->load->model('order_log_model');
 	}
@@ -82,8 +80,9 @@ class Lesson_model extends CI_Model
 		if (isset($data['status'])) { $this->db->where_in('o.status', (array) $data['status']); }
 		if (isset($data['date_from'])) { $this->db->where('o.start_date >= ', $data['date_from']); }
 		if (isset($data['date_to'])) { $this->db->where('o.start_date <= ', $data['date_to']); }
+		if (isset($data['client_id'])) { $this->db->where('o.client_id', $data['client_id']); }
 
-		if (isset($data['order_by'])) { $this->db->order_by($data['order_by']); } else { $this->db->order_by('o.start_date DESC'); }
+		if (isset($data['order_by'])) { $this->db->order_by($data['order_by']); } else { $this->db->order_by('o.start_date ASC'); }
 		
 		$this->db
 			->select('o.*, lol.last_update AS status_date, lol.data AS status_data, COUNT(DISTINCT ol.id) AS comments_count, c.name, c.phones')
@@ -145,6 +144,7 @@ class Lesson_model extends CI_Model
 		$all_data = $data;
 		$old_order = $this->get_by_id($data['id']);
 		$data['data'] = (!empty($old_order) ? $old_order['data'] : $this->default_data);
+		$data['cost'] = floatval(round($data['client_cost'] * floatval($data['duration']))/$data['client_duration']);
 		
 
 		
@@ -154,30 +154,14 @@ class Lesson_model extends CI_Model
 			}
 		}
 
-		$data['total_cost'] = floatval(round($data['cost'] * floatval($data['duration'])));
-
-		// Рассчитываем общую сумму заказа вместе с доставкой
-		if (isset($data['items'])) {
-			$items_total_price = 0;
-			
-			foreach ((array) $data['items'] as $i => $item) {
-				$data['items'][$i]['count'] = floatval(str_replace(',', '.', $item['count']));
-				$data['items'][$i]['price'] = floatval(str_replace(',', '.', $item['price']));
-				$items_total_price += floatval(round($data['items'][$i]['count'] * $data['items'][$i]['price']));
-			}
-			
-			$data['data']['items_total_price'] = $items_total_price;
-			$data['data']['total_price'] = $data['total_price'] = $items_total_price + $data['data']['delivery_price'];
-			
-			$this->update_items($data);
-			
-			$data['items'] = json_encode($data['items']);
-		}
-		
 		$data['data'] = json_encode($data['data']);
 		
 		if (empty($data['id'])) {
-			
+			$data['user_id'] = $this->auth->user['id'];
+
+			$client = $this->client_model->get_by_id($data['client_id']);
+			$data['place'] = $client['place'];
+
 			$this->db->insert(T_LESSONS, $data);
 			$data['id'] = $this->db->insert_id();
 		} else {
@@ -279,11 +263,6 @@ class Lesson_model extends CI_Model
 		$this->db->where('id', $id)->delete(T_LESSONS);
 	}
 	
-	
-	
-	public function get_similar($name) {
-		return array();
-	}
 
     static function sort_items($a, $b) {
         return (intval($a['id']) > intval($b['id']) ? 1 :
