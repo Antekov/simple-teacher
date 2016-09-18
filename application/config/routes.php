@@ -51,11 +51,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $route['js/(.*)'] = 'js/$1';
-$route['login'] = 'authentication/login';
+$route['(.*)login'] = 'authentication/login';
 $route['logout'] = 'authentication/logout';
 $route['services/(.*)'] = 'services/modules/$1';
-$route['(client|timetable|lesson)/(.*)'] = 'modules/$1/$2';
-$route['(client|timetable|lesson)'] = 'modules/$1';
+$route['(client|timetable|lesson|profile)/(.*)'] = 'modules/$1/$2';
+$route['(client|timetable|lesson|profile)'] = 'modules/$1';
 
 $route['default_controller'] = 'main';
 $route['404_override'] = '';

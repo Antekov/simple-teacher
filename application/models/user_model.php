@@ -8,7 +8,7 @@
  */
 class User_model extends CI_Model
 {
-	var $fields = array('id', 'name', 'address', 'phones', 'description', 'email', 'parent_id', 'status', 'login', 'password', 'uniqueid');
+	var $fields = array('id', 'name', 'address', 'phones', 'skype', 'description', 'email', 'parent_id', 'status', 'login', 'password', 'uniqueid');
 	var $is_admin = false;
 
 	const S_DRAFT		= 0;
@@ -182,7 +182,7 @@ class User_model extends CI_Model
 		return count($ids) ? $this->get(array('id' => $ids)) : array();
 	}
 
-	public function get_by_id($id)				{ return reset($this->get(array('id' => (string) $id))); }
+	public function get_by_id($id)				{ $users = $this->get(array('id' => (string) $id)); return reset($users); }
 	public function get_by_uniqueid($uniqueid)	{ return reset($this->get(array('uniqueid' => (string) $uniqueid))); }
 	public function get_by_group_id($group_id)	{ return $this->get(array('id' => array_keys($this->get(array('group_id' => $group_id))), 'status' => 1)); }
 

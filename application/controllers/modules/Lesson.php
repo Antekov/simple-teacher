@@ -42,6 +42,10 @@ class Lesson extends CI_Controller {
 			array('name' => '<i class="fa fa-bell-o"></i> Занятия')
 		);
 
+		$this->stash['header_buttons'] = array(
+			array('name' => '<i class="fa fa-plus"></i>', 'click' => 'lessons.open(0)')
+		);
+
 		$filters = (isset($this->filters['lesson'])) ? $this->filters['lesson'] : array();
 
 		$data = array();
@@ -87,23 +91,33 @@ class Lesson extends CI_Controller {
 			array('name' => '<i class="fa fa-bell-o"></i> Занятия')
 		);
 
+		$this->stash['header_buttons'] = array(
+			array('name' => '<i class="fa fa-save"></i>', 'click' => 'lessons.save(lessons.id)')
+		);
+
+
 
 		if ($id) {
 			$lesson = $this->lesson_model->get_by_id($id);
+			$client = $this->client_model->get_by_id($lesson['client_id']);
+			$this->stash['client'] = $client;
 		} else {
-			$lesson = array('id' => 0, 'user_id' => $this->auth->user['id'], 'description' => '', 'address' => '', 'phones' => array(),
-				'sid' => md5(time().getmypid()),
-				'login' => '', 'email' => '',
-				'status' => 0,
-				'data' => array('delivery_id' => 0)
+			$lesson = array('id' => 0, 'client_id' => 0,
+				'place' => (!empty($client['place']) ? $client['place'] : 0),
+				'start_date' => date("d.m.Y 00:00"),
+				'cost' => (!empty($client['data']['cost']) ? $client['data']['cost'] : 800),
+				'duration' => (!empty($client['data']['duration']) ? $client['data']['duration'] : 90),
+				'status' => 1,
+				'data' => array()
 			);
+
+			$this->stash['clients'] = $clients = $this->client_model->get(array('status' => 1));
 		}
 
 		$this->stash['lesson'] = $lesson;
-		//$this->stash['lessons'] = $this->lesson_model->get(array('client_id' => $id, 'order_by' => 'o.delivery_date DESC'));
-		//$this->stash['lesson_statuses'] = lesson_model::$statuses;
+		$this->stash['lesson_statuses'] = lesson_model::$statuses;
 
-		//$this->stash['wrapper'] = 'popup';
+
 
 		$this->load->view('modules/lesson/edit', $this->stash);
 	}

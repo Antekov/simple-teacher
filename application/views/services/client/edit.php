@@ -25,6 +25,7 @@
 					<option value="0" <?=($client['place'] == 0 ? 'selected' : '')?> >Дистанционно</option>
 					<option value="1" <?=($client['place'] == 1 ? 'selected' : '')?> >У ученика</option>
 					<option value="2" <?=($client['place'] == 2 ? 'selected' : '')?> >У преподавателя</option>
+					<option value="3" <?=($client['place'] == 3 ? 'selected' : '')?> >В офисе</option>
 				</select>
 			</div>
 		</div>

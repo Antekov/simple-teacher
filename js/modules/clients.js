@@ -9,7 +9,7 @@ var clients = new function() {
 			place = $('.cf-field-place', c).val();
 			$('.cf-only-place', c).hide().filter('.cf-only-place-'+place).show();
 
-			var placeClasses = ['fa-skype', 'fa-user', 'fa-home']
+			var placeClasses = ['fa-skype', 'fa-user', 'fa-home', 'fa-building'];
 			$('.j-client-place .fa').removeClass(placeClasses.join(' ')).addClass(placeClasses[place]);
 		});
 

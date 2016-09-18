@@ -31,7 +31,7 @@ var lessons = new function() {
 				)
 			};
 
-			$('.lf-date-input, .lf-time-input', form).on('change, keyup', self.changeDate);
+			$('.lf-date-input, .lf-time-input', form).on('change keyup', self.changeDate);
 
 			$('.lf-date-input')[0].focus();
 		}
@@ -72,7 +72,7 @@ var lessons = new function() {
 	}
 	
 	this.status = function(status) {
-		var url = '/lesson/status/'+this.id+'/'+status+'/';
+		var url = '/services/lesson/status/'+this.id+'/'+status+'/';
 		
 		g.overlay(true);
 		
@@ -80,9 +80,9 @@ var lessons = new function() {
 			type: "GET",
 			url: url,
 			success: function(data) {
-				if (data.status == 1) {
+				if (data.status != -1) {
 
-					users.replace(users.id);
+					lessons.init();
 				}
 				
 			},

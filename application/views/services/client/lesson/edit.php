@@ -12,15 +12,31 @@
 <? } ?>
 <form id="lesson_form" class="lesson-form" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="id" value="<?=$lesson['id']?>">
-	<input type="hidden" name="client_id" value="<?=$client['id']?>">
+	<? if (!empty($client)) { ?>
+		<input type="hidden" name="client_id" value="<?=$client['id']?>">
+		<input type="hidden" name="client_cost" value="<?=$client['data']['cost']?>">
+		<input type="hidden" name="client_duration" value="<?=$client['data']['duration']?>">
+	<? } ?>
 	<input type="hidden" name="place" value="<?=$lesson['place']?>">
 	<input type="hidden" name="start_date" value="<?=$lesson['start_date']?>">
-	<input type="hidden" name="client_cost" value="<?=$client['data']['cost']?>">
-	<input type="hidden" name="client_duration" value="<?=$client['data']['duration']?>">
 	<input type="hidden" name="cost" value="<?=$lesson['cost']?>">
 	<input type="hidden" name="duration" class="data-duration" value="<?=$lesson['duration']?>">
 
 			<div class="row">
+				<? if (empty($client) && !empty($clients)) { ?>
+					<div class="col-md-6 col-md-offset-3">
+						<div class="field-title">Клиент</div>
+						<div class="input-group input-group-lg">
+							<span class="input-group-addon"><i class="fa fa-user"></i></span>
+							<select class="form-control" name="client_id" value="" placeholder="" autofocus required>
+								<option value="">...</option>
+								<? foreach ($clients as $client) { ?>
+									<option value="<?=$client['id']?>"><?=$client['name'].' / '.$client['description']?></option>
+								<? } ?>
+							</select>
+						</div>
+					</div>
+				<? } ?>
 				<div class="col-md-6 col-md-offset-3">
 					<div class="field-title">Дата</div>
 					<div class="input-group input-group-lg">

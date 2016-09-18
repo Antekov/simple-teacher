@@ -81,13 +81,13 @@ class Lesson extends CI_Controller {
 			if (isset($data['week'])) {
 
 				$data['date_from'] = date('Y-m-d', strtotime($data['week']));
-				$data['date_to'] = date('Y-m-d 23:59:59', strtotime($data['week'])+24*3600*7);
+				$data['date_to'] = date('Y-m-d 23:59:59', strtotime($data['week'])+24*3600*6);
 			}
 
 			$this->filter_save('date_from', date('Y-m-d', strtotime($data['date_from'])));
 			$this->filter_save('date_to', date('Y-m-d', strtotime($data['date_to'])+1));
 
-			$json['data'] = $data;
+			$json['data'] = $this->stash['data'] = $data;
 			$json['lessons'] = $this->stash['lessons'] = $this->lesson_model->get($data);
 
 			$json['result'] = $this->load->view('/services/lesson/get', $this->stash, true);
@@ -119,7 +119,7 @@ class Lesson extends CI_Controller {
 				'start_date' => date("d.m.Y 00:00"),
 				'cost' => (!empty($client['data']['cost']) ? $client['data']['cost'] : 800),
 				'duration' => (!empty($client['data']['duration']) ? $client['data']['duration'] : 90),
-				'status' => 0,
+				'status' => 1,
 				'data' => array()
 			);
 		}
@@ -150,6 +150,34 @@ class Lesson extends CI_Controller {
 			$this->stash['json'] = array('status' => 0);
 		}
 
+		$this->load->view('json', $this->stash);
+	}
+
+	public function set() {
+		$data = $this->input->post(null, true);
+
+		if ($data !== false && !empty($data['id']) && !empty($lesson = $this->lesson_model->get_by_id($data['id']))) {
+
+			foreach ($data as $key => $value) {
+				$lesson[$key] = $value;
+			}
+
+			$data = $this->lesson_model->save($lesson);
+
+			$this->stash['json'] = array(
+				'status' => 1,
+				'client_id' => $data['client_id'],
+				'id' => $data['id']
+			);
+		} else {
+			$this->stash['json'] = array('status' => 0);
+		}
+
+		$this->load->view('json', $this->stash);
+	}
+
+	public function status($id, $status) {
+		$this->stash['json'] = $this->lesson_model->status($id, $status);
 		$this->load->view('json', $this->stash);
 	}
 }

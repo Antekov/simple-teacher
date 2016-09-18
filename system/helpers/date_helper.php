@@ -483,10 +483,13 @@ if ( ! function_exists('unix_to_human'))
 				if (isset($word[$n])) {
 					switch($word[$n]) {
 						case 'w' :
-							$date_fmt .= lang($this->WEEK_RUS['short'][$week_day]);
+							$date_fmt .= ($this->WEEK_RUS['short'][$week_day]);
+							break;
+						case 'W' :
+							$date_fmt .= mb_strtoupper(($this->WEEK_RUS['short'][$week_day]));
 							break;
 						case 'week' :
-							$date_fmt .= lang($this->WEEK_RUS['long'][$week_day]);
+							$date_fmt .= ($this->WEEK_RUS['long'][$week_day]);
 							break;
 						case 'm' :
 							$date_fmt .= $m;

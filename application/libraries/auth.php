@@ -50,8 +50,7 @@ class auth {
 				return;
 			}
 		}
-
-		redirect('/login');
+		redirect( base_url().'/login');
 
 	}
 
