@@ -33,6 +33,9 @@ class default_model extends CI_Model {
 			$u = uri_string();
 			$rt = preg_replace('/\?lang=.{2}/','',$u);
 			redirect($rt);
+			if (false) {
+
+			}
 		}
 	}
 	
