@@ -1,2 +1,3 @@
 application/sessions/*
 .idea/
+/application/config/database.local.php

@@ -102,3 +102,4 @@ define('T_FINANCES',				'finances');
 define('T_SYSTEM',					'system');
 define('T_SYSTEM_LANG',				'system_lang');
 
+include "database.local.php";
