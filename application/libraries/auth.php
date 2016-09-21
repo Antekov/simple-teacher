@@ -1,5 +1,5 @@
 <?php
-class auth {
+class Auth {
 	private $ci;
 	public $user;
 	public $data;
