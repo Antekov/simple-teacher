@@ -143,13 +143,22 @@
 			</div>
 
 		</div>
+		<? if (!empty($client['external_id'])) { ?>
 		<div class="col-md-4">
 			<div class="field-title">Цена заказа</div>
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-times"></i></span>
 				<input type="number" class="form-control" name="data[tax]" value="<?=(!empty($client['data']['tax']) ? $client['data']['tax'] : '')?>" placeholder="Цена заказа">
+				<? if (empty($client['data']['tax_paid'])) { ?>
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default" tabindex="-1" onclick="clients.payTax();">Оплатить</button>
+					</div>
+				<? } else { ?>
+					<span class="input-group-addon"><i class="fa fa-check"></i> Оплачено</span>
+				<? } ?>
 			</div>
 		</div>
+		<? } ?>
 	</div>
 
 			</div>

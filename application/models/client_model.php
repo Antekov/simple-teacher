@@ -68,6 +68,7 @@ class Client_model extends CI_Model
 		}
 
 		$this->load->model('user_model');
+		$this->load->model('finance_model');
 
 		$this->default_fields_values = array(
 			'id' => 0, 'name' => '', 'description' => '', 'address' => '', 'phones' => array(),
@@ -94,8 +95,9 @@ class Client_model extends CI_Model
 		}
 
 		$this->db
-			->select('t.*')
+			->select('t.*, f.amount AS tax_paid')
 			->from(T_CLIENTS.' AS t')
+			->join(T_FINANCES.' AS f', 'f.client_id = t.id AND f.type = 2', 'LEFT')
 			->where('t.user_id', $this->auth->user['id'])
 			->order_by('t.status ASC, t.create_date DESC, t.address, t.name');
 
@@ -104,6 +106,10 @@ class Client_model extends CI_Model
 		foreach ($clients as $id => $client) {
 			$clients[$id]['data'] = json_decode($client['data'], true);
 			$clients[$id]['phones'] = (array) json_decode($client['phones'], true);
+
+			if (!empty($client['tax_paid'])) {
+				$clients[$id]['data']['tax_paid'] = $client['tax_paid'];
+			}
 
 			//$vendors[$id]['phone'] = (array) json_decode($vendor['phone'], true);
 			//$vendors[$id]['email'] = (array) json_decode($vendor['email'], true);
@@ -171,7 +177,7 @@ class Client_model extends CI_Model
 	public function parse_phone($phone){
 		$this->load->config('phones');
 		$phoneCodes = $this->config->item('phone_codes');
-		$country_codes = array(1=>'USA', 7=>'Russia', 380=>'Ukraine');
+		$country_codes = array(1=>'USA', 7=>'Russia', 380=>'Ukraine', 44=>'United Kingdom');
 
 		$phone_chunks = preg_split('/[^\d\(\)\-\s+\+\.]/', $phone);
 		$max_len = 0;

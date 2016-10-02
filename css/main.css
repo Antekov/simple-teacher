@@ -1045,14 +1045,16 @@
 }
 
 .tli-item {
-	border-top: 1px solid #EEE;
+	border: 1px solid #DDD;
 	border-bottom: 1px solid #D5D5D5;
-	width: calc(13em - 2px);
+	width: 13em;
 	box-sizing: border-box;
 	background: #FFF;
 	position: absolute;
 	box-shadow: rgba(0,0,0,0.1) 1px 2px 10px 0px;
 	z-index: 2;
+	margin-left: -1px;
+	cursor: pointer;
 }
 
 .tli-item.active {

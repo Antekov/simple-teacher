@@ -222,7 +222,7 @@ class User_model extends CI_Model
 	public function parse_phone($phone){
 		$this->load->config('phones');
 		$phoneCodes = $this->config->item('phone_codes');
-		$country_codes = array(1=>'USA', 7=>'Russia', 380=>'Ukraine');
+		$country_codes = array(1=>'USA', 7=>'Russia', 380=>'Ukraine', 44=>'United Kingdom');
 
 		$phone_chunks = preg_split('/[^\d\(\)\-\s+\+\.]/', $phone);
 		$max_len = 0;

@@ -1,8 +1,9 @@
 <div class="week">
 <? for ($day = 0; $day < 7; $day++) {
-	$current_date = date('Y-m-d', strtotime($data['date_from'])+$day*24*3600);
+	$current_time = strtotime($data['date_from'])+$day*24*3600;
+	$current_date = date('Y-m-d', $current_time);
 ?>
-	<div class="w-day">
+	<div class="w-day" data-date="<?=date('Y-m-d', $current_time)?>" data-weekday="<?=((date('w', $current_time))%7)?>">
 		<div class="wd-title">
 			<span class="wdt-weekday"><?=unix_to_human($current_date, 'W')?></span>
 			<span class="wdt-date"><?=unix_to_human($current_date, 'd.m')?></span>
@@ -17,7 +18,7 @@
 <? } ?>
 	<div class="timetable-lesson-items">
 		<? foreach ($lessons as $lesson) { ?>
-			<div class="tli-item" role="lesson" data-weekday="<?=date('w', strtotime($lesson['start_date']))?>" data-hour="<?=date('H', strtotime($lesson['start_date']))?>" data-minute="<?=date('i', strtotime($lesson['start_date']))?>"
+			<div class="tli-item" role="lesson" data-date="<?=date('Y-m-d', strtotime($lesson['start_date']))?>" data-weekday="<?=date('w', strtotime($lesson['start_date']))?>" data-hour="<?=date('H', strtotime($lesson['start_date']))?>" data-minute="<?=date('i', strtotime($lesson['start_date']))?>"
 				 data-duration="<?=$lesson['duration']?>" data-id="<?=$lesson['id']?>">
 				<div class="tlii-status">
 					<span class="ld-status ld-status-<?=$lesson['status']?>"></span>
@@ -177,8 +178,7 @@
 	setElement = function(el) {
 		var duration = $(el).data('duration');
 		var weekday = $(el).data('weekday');
-
-		if (weekday == 0) { weekday = 6 } else { weekday -= 1; }
+		var date = $(el).data('date');
 
 		var hour = parseInt($(el).data('hour'));
 
@@ -188,6 +188,8 @@
 			maxHour = Math.round(hour + duration/60); }
 
 		var minute = $(el).data('minute');
+
+		$('.w-day').filter(function() { return ($(this).data('date') == date || $(this).data('weekday') == weekday); }).find('.wd-hour').filter(function() { return ($(this).data('hour') == hour); }).before(el);
 
 		$(el).css({
 			'margin-top':'calc('+(3*minute/60)+'em - 1px)',
@@ -200,6 +202,7 @@
 			width: ''
 		}).click(function() {
 			var $el = $(this);
+			console.log(this);
 			if ($el.hasClass('active')) {
 				$('.tli-item').removeClass('active');
 				lessons.id = 0;
@@ -209,78 +212,78 @@
 				lessons.id = $el.data('id');
 			}
 
-		});
+		}).draggable({
 
-		$('.w-day').eq(weekday).find('.wd-hour').filter(function() { return ($(this).data('hour') == hour); }).before(el);
-	};
-
-	$('.tli-item').each(function(i, el) {
-		setElement(el);
-	}).draggable({
-
-	}).resizable({
-		minWidth: $('.wd-hour:eq(0)').width(),
-		maxWidth: $('.wd-hour:eq(0)').width(),
-		//disabled: true,
-		start: function(event, ui) {
-		},
-		resize: function (event, ui) {
-			var step = hourHeight / 60 * 10;
-			ui.size.height = Math.round( ui.size.height / step ) * step;
-			var duration = Math.round(ui.size.height / hourHeight * 60);
-
-			if (duration < 60) {
-				if (duration < 45) {
-					duration = 45;
-				}
-				ui.size.height = hourHeight;
-			}
-
-			ui.element.data('newDuration', duration);
-			$('.j-duration', ui.element).html(duration);
-		},
-		stop: function(event, ui) {
-			var data = ui.element.data();
-			var ui = ui;
-
-			if (confirm('Изменить продолжительность занятия на ' + ui.element.data('duration') + ' мин?')) {
-				$.post('/services/lesson/set/',
-					{id: data.id, duration: data.newDuration},
-					function (data) {
-						if (data.status != 1) {
-							var duration = ui.element.data('duration');
-
-							if (duration < 60) {
-								if (duration < 45) {
-									duration = 45;
-								}
-								ui.size.height = hourHeight;
-							} else {
-								ui.element.css({height: Math.round(duration * hourHeight / 60)});
-							}
-
-							$('.j-duration', ui.element).html(duration);
-						} else {
-							ui.element.data('duration', ui.element.data('newDuration'));
-						}
-					}
-				);
-				ui.element.data('newDuration', null);
-			} else {
-				var duration = ui.element.data('duration');
+		}).resizable({
+			minWidth: $('.wd-hour:eq(0)').width(),
+			maxWidth: $('.wd-hour:eq(0)').width(),
+			//disabled: true,
+			start: function(event, ui) {
+			},
+			resize: function (event, ui) {
+				var step = hourHeight / 60 * 10;
+				ui.size.height = Math.round( ui.size.height / step ) * step;
+				var duration = Math.round(ui.size.height / hourHeight * 60);
 
 				if (duration < 60) {
 					if (duration < 45) {
 						duration = 45;
 					}
 					ui.size.height = hourHeight;
-				} else {
-					ui.element.css({height: Math.round(duration * hourHeight / 60)});
 				}
 
+				ui.element.data('newDuration', duration);
 				$('.j-duration', ui.element).html(duration);
+			},
+			stop: function(event, ui) {
+				var data = ui.element.data();
+				var ui = ui;
+
+				if (confirm('Изменить продолжительность занятия на ' + ui.element.data('duration') + ' мин?')) {
+					$.post('/services/lesson/set/',
+						{id: data.id, duration: data.newDuration},
+						function (data) {
+							if (data.status != 1) {
+								var duration = ui.element.data('duration');
+
+								if (duration < 60) {
+									if (duration < 45) {
+										duration = 45;
+									}
+									ui.size.height = hourHeight;
+								} else {
+									ui.element.css({height: Math.round(duration * hourHeight / 60)});
+								}
+
+								$('.j-duration', ui.element).html(duration);
+							} else {
+								ui.element.data('duration', ui.element.data('newDuration'));
+							}
+						}
+					);
+					ui.element.data('newDuration', null);
+				} else {
+					var duration = ui.element.data('duration');
+
+					if (duration < 60) {
+						if (duration < 45) {
+							duration = 45;
+						}
+						ui.size.height = hourHeight;
+					} else {
+						ui.element.css({height: Math.round(duration * hourHeight / 60)});
+					}
+
+					$('.j-duration', ui.element).html(duration);
+				}
 			}
-		}
+		});
+
+
+	};
+
+	$('.tli-item').each(function(i, el) {
+		setElement(el);
 	});
 
 	$('.w-day .wd-hour').droppable({
@@ -289,6 +292,7 @@
 			//console.log(event);
 			//$(event.target).css({border: '3px solid #000'});
 			var hour = $(event.target).data('hour');
+
 			ui.draggable.find('.ld-time-hour').html(hour);
 			//ui.draggable.find('.ld-time-minute').html($(event.target).offset().top - ui.draggable.offset().top);
 			//ui.draggable.$(event.target).data('', )
@@ -310,7 +314,7 @@
 
 
 					} else {
-						ui.draggable.data({'hour': hour, minute: '00'});
+						ui.draggable.data({'date': $(event.target).data('date'), 'hour': hour, minute: '00'});
 					}
 					setElement(ui.draggable[0]);
 				}
@@ -318,11 +322,11 @@
 		}
 	});
 	hideHours = function(minHour, maxHour) {
-		console.log(minHour, maxHour);
+		//console.log(minHour, maxHour);
 		$('.w-day .wd-hour').show().filter(function () {
-			return (parseInt($(this).data('hour')) < parseInt(minHour) || parseInt($(this).data('hour')) >= parseInt(maxHour));
+			return (parseInt($(this).data('hour')) < Math.round(minHour) || parseInt($(this).data('hour')) >= Math.round(maxHour));
 		}).hide();
-	}
+	};
 
 	hideHours(minHour, maxHour);
 

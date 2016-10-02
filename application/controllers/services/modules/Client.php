@@ -11,6 +11,7 @@ class Client extends CI_Controller {
 		}
 		$this->load->model('client_model');
 		$this->load->model('lesson_model');
+		$this->load->model('finance_model');
 
 		$this->stash['user'] = $this->auth->user;
 		//$this->stash['js'] = 'fwctrl/connection.js';
@@ -89,6 +90,25 @@ class Client extends CI_Controller {
 			);
 		} else {
 			$this->stash['json'] = array('status' => 0);
+		}
+
+		$this->load->view('json', $this->stash);
+	}
+
+	public function pay_tax($id) {
+		$this->stash['json'] = array('status' => 0);
+
+		if ($id) {
+			$client = $this->client_model->get_by_id($id);
+
+			if (!empty($client['data']['tax']) && empty($client['data']['tax_paid'])) {
+				$data = $this->finance_model->add_tax_payment(array('client_id' => $id, 'amount' => $client['data']['tax']));
+				print_r($data);
+				$this->stash['json'] = array(
+					'status' => 1,
+					'data' => $data
+				);
+			}
 		}
 
 		$this->load->view('json', $this->stash);

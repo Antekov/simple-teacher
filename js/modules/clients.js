@@ -48,7 +48,27 @@ var clients = new function() {
 	
 	this.close = function(user_id) {
 		g.go({url: '/client/?id='+user_id});
-	}
+	};
+
+	this.payTax = function() {
+		if (this.id > 0) {
+			var url = '/services/client/pay_tax/'+this.id;
+
+			$.ajax({
+				type: "GET",
+				url: url,
+				success: function(data) {
+					if (data.status == 1) {
+
+						//projects.init();
+						clients.close(clients.id);
+					}
+
+				},
+				dataType: 'json'
+			});
+		}
+	};
 	
 	this.save = function(d) {
 		var d = d || {}

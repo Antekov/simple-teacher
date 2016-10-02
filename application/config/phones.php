@@ -39,5 +39,13 @@ $config['phone_codes'] = array(
         'exceptions'=>array(),
         'exceptions_max'=>0,
         'exceptions_min'=>0
+    ),
+'44'=>array(
+        'name'=>'United Kingdom',
+        'cityCodeLength'=>3,
+        'zeroHack'=>false,
+        'exceptions'=>array(),
+        'exceptions_max'=>0,
+        'exceptions_min'=>0
     )
 );
