@@ -7,6 +7,7 @@ class Main extends CI_Controller {
 		parent::__construct();
 		$this->auth->check_auth();
 		$this->stash['user'] = $this->auth->user;
+
 	}
 
 	/**

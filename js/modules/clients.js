@@ -95,7 +95,7 @@ var clients = new function() {
 			},
 			dataType: 'json'
 		});
-	}
+	};
 	
 	this.status = function(status) {
 		var url = '/user/status/'+this.id+'/'+status+'/';
@@ -113,10 +113,10 @@ var clients = new function() {
 			},
 			dataType: 'json'
 		});
-	}
+	};
 	
 	this.delete = function(d) {
-		var d = d || {}
+		var d = d || {};
 		if (d.confirm == undefined) {
 			if (d.project_id != undefined) { projects.id = d.project_id; }
 			return g.confirm('Вы уверены, что хотите удалить бренд?', projects.delete, {project_id:projects.id, count:0, confirm:1}, {label_ok:'    Да    ', label_cancel:'Отмена'});
@@ -140,7 +140,7 @@ var clients = new function() {
 				dataType: 'json'
 			});
 		}
-	}
+	};
 	
 	this.add_comment = function(user_id, $comment) {
 		g.overlay(true);
@@ -158,8 +158,9 @@ var clients = new function() {
 			},
 			dataType: 'json'
 		});
-	}
-}
+	};
+};
 $(function () {
 	clients.form = new clients.init_form();
 });
+

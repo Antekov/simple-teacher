@@ -324,6 +324,7 @@ class Client_model extends CI_Model
 			$data['user_id'] = $this->auth->user['id'];
 			$this->db->insert(T_CLIENTS, $data);
 			$data['id'] = $this->db->insert_id();
+			$this->set_status($data, client_model::S_ACTIVE);
 		} else {
 			$id = $data['id'];
 			unset($data['id']);
@@ -358,6 +359,18 @@ class Client_model extends CI_Model
 		}
 		*/
 		return $data;
+	}
+
+	private function set_status($data, $status = client_model::S_DRAFT) {
+		if (isset($data['id'])
+			&& isset($data['status'])
+			&& $data['status'] != $status
+			&& isset(client_model::$status_changes)
+		) {
+			$this->db
+				->where('id', $data['id'])
+				->update(T_CLIENTS, array("status" => $status));
+		}
 	}
 
 	private function save_data($id, $key, $value) {

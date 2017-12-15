@@ -35,11 +35,15 @@
 				<div class="tlii-toolbar">
 				<? if ($lesson['status'] == lesson_model::S_DRAFT) { ?>
 					<button class="btn btn-success btn-block" onclick="lessons.status(<?=lesson_model::S_ACTIVE?>)"><i class="fa fa-play"></i> Назначить</button>
+					<button class="btn btn-warning btn-block" onclick="lessons.status(<?=lesson_model::S_PAID?>)"><i class="fa fa-money"></i> Оплачено</button>
 					<button class="btn btn-deafult btn-block" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/<?=$lesson['id']?>/<?=$lesson['client_id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })"><i class="fa fa-edit"></i> Правка</button>
 				<? } ?>
-				<? if ($lesson['status'] == lesson_model::S_ACTIVE) { ?>
+				<? if ($lesson['status'] == lesson_model::S_ACTIVE || $lesson['status'] == lesson_model::S_PAID) { ?>
 					<? if ($lesson['start_date'] < date('Y-m-d H:i:s')) { ?>
 					<button class="btn btn-success btn-block" onclick="lessons.status(<?=lesson_model::S_COMPLETE?>)"><i class="fa fa-check"></i> Проведено</button>
+					<? } ?>
+					<? if ($lesson['status'] == lesson_model::S_ACTIVE) { ?>
+						<button class="btn btn-warning btn-block" onclick="lessons.status(<?=lesson_model::S_PAID?>)"><i class="fa fa-money"></i> Оплачено</button>
 					<? } ?>
 					<button class="btn btn-dismiss btn-block" onclick="lessons.status(<?=lesson_model::S_CANCELED?>)"><i class="fa fa-times"></i> Отменить</button>
 					<button class="btn btn-deafult btn-block" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/<?=$lesson['id']?>/<?=$lesson['client_id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })"><i class="fa fa-edit"></i> Правка</button>
@@ -56,97 +60,7 @@
 	</div>
 	<div class="timetable-busy-time-items">
 		<?
-		/*$busy_time = array(
-			array(
-				'begin_date' => '2016-09-07',
-				'weekday' => 1,
-				'start_time' => '12:30:00',
-				'duration' => 90,
-				'name' => 'Репетитор у Кати',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-			array(
-				'begin_date' => '2016-09-14',
-				'weekday' => 3,
-				'start_time' => '11:00:00',
-				'duration' => 90,
-				'name' => 'Репетитор у Кати',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-
-			array(
-				'begin_date' => '2016-09-07',
-				'weekday' => 1,
-				'start_time' => '15:00:00',
-				'duration' => 80,
-				'name' => 'Поиск у Вовы',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-			array(
-				'begin_date' => '2016-09-07',
-				'weekday' => 4,
-				'start_time' => '15:00:00',
-				'duration' => 80,
-				'name' => 'Поиск у Вовы',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-			array(
-				'begin_date' => '2016-09-07',
-				'weekday' => 3,
-				'start_time' => '14:00:00',
-				'duration' => 140,
-				'name' => 'Поиск у Вовы',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-
-			array(
-				'begin_date' => '2016-09-07',
-				'weekday' => 3,
-				'start_time' => '11:00:00',
-				'duration' => 60,
-				'name' => 'Хореография у нас',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-
-			array(
-				'begin_date' => '2016-09-07',
-				'weekday' => 5,
-				'start_time' => '11:00:00',
-				'duration' => 60,
-				'name' => 'Хореография у нас',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-
-			array(
-				'begin_date' => '2016-09-12',
-				'weekday' => 1,
-				'start_time' => '15:30:00',
-				'duration' => 60,
-				'name' => 'Хореография у Кати',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-
-			array(
-				'begin_date' => '2016-09-12',
-				'weekday' => 4,
-				'start_time' => '15:30:00',
-				'duration' => 60,
-				'name' => 'Хореография у Кати',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-
-			array(
-				'begin_date' => '2016-09-12',
-				'weekday' => 1,
-				'start_time' => '11:30:00',
-				'duration' => 60,
-				'name' => 'Рисование у Кати',
-				//'color' => 'rgba(0,0,0,0.1)'
-			),
-
-
-		);
-		*/
+		
 		if (!empty($this->auth->user['data']['busy_time'])) {
 		$busy_time = $this->auth->user['data']['busy_time'];
 		foreach ($busy_time as $lesson) {
@@ -194,7 +108,7 @@
 		$(el).css({
 			'margin-top':'calc('+(3*minute/60)+'em - 1px)',
 			//height:'calc('+(3*duration/60)+'em + 1px)'
-			height:hourHeight*duration/60,
+			height:hourHeight*Math.max(60,duration)/60,
 			top:'',
 			left: '',
 			bottom: '',
@@ -226,8 +140,8 @@
 				var duration = Math.round(ui.size.height / hourHeight * 60);
 
 				if (duration < 60) {
-					if (duration < 45) {
-						duration = 45;
+					if (duration < 15) {
+						duration = 15;
 					}
 					ui.size.height = hourHeight;
 				}
@@ -239,7 +153,7 @@
 				var data = ui.element.data();
 				var ui = ui;
 
-				if (confirm('Изменить продолжительность занятия на ' + ui.element.data('duration') + ' мин?')) {
+				if (confirm('Изменить продолжительность занятия на ' + data.newDuration + ' мин?')) {
 					$.post('/services/lesson/set/',
 						{id: data.id, duration: data.newDuration},
 						function (data) {
@@ -247,8 +161,8 @@
 								var duration = ui.element.data('duration');
 
 								if (duration < 60) {
-									if (duration < 45) {
-										duration = 45;
+									if (duration < 15) {
+										duration = 15;
 									}
 									ui.size.height = hourHeight;
 								} else {
@@ -266,8 +180,8 @@
 					var duration = ui.element.data('duration');
 
 					if (duration < 60) {
-						if (duration < 45) {
-							duration = 45;
+						if (duration < 15) {
+							duration = 15;
 						}
 						ui.size.height = hourHeight;
 					} else {

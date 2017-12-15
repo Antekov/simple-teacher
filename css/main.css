@@ -602,6 +602,25 @@
 	content: '';
 }
 
+.lesson .status-5 .status-title { color: #A0A0A0; }
+.lesson .status-5 .status-title:before {
+	display: inline-block;
+	float: left;
+	box-sizing: border-box;
+	padding: 0;
+	text-align: center;
+	text-shadow: rgba(0, 0, 0, 0.4) 1px 0px 2px;
+	box-shadow: inset rgba(255,255,255,0.5) 2px 2px 5px;
+	width: 1.4em;
+	height: 1.4em;
+	margin: 0 0.3em 0 0;
+	border: 1px solid #BDAA5E;
+	border-radius: 100%;
+	background: #E9D77C;
+	color: #FFF;
+	content: '';
+}
+
 .client-data {}
 .lesson-data {}
 
@@ -798,8 +817,8 @@
 	content: '';
 }
 
-.ld-status-4 { color: #A0A0A0; }
-.ld-status-4:before {
+.ld-status-5 { color: #A0A0A0; }
+.ld-status-5:before {
 	display: inline-block;
 	float: left;
 	box-sizing: border-box;

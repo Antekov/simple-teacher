@@ -14,14 +14,16 @@ class Lesson_model extends CI_Model
 	const S_ACTIVE		= 1;
 	const S_COMPLETE	= 2;
 	const S_CANCELED	= 3;
-	const S_PAUSED		= 4;
+	const S_WAIT		= 4;
+	const S_PAID		= 5;
 	
 	static $statuses = array(
 		0 => 'Необработано',
 		1 => 'Назначено',
-		2 => 'Проведено',
+		2 => 'Проведено, оплачено',
 		3 => 'Отменено',
-		4 => 'Не оплачено'
+		4 => 'Проведено, не оплачено',
+		5 => 'Назначено, оплачено'
 	);
 	
 	static $status_changes = array(
@@ -29,12 +31,13 @@ class Lesson_model extends CI_Model
 			lesson_model::S_ACTIVE => array(),
 			lesson_model::S_CANCELED => array(),
 			lesson_model::S_COMPLETE => array(),
-			lesson_model::S_PAUSED => array(),
+			lesson_model::S_WAIT => array(),
 		),
 		lesson_model::S_ACTIVE => array(
 			lesson_model::S_CANCELED => array(),
 			lesson_model::S_COMPLETE => array(),
-			lesson_model::S_PAUSED => array(),
+			lesson_model::S_WAIT => array(),
+			lesson_model::S_PAID => array(),
 		),
 		
 		lesson_model::S_CANCELED => array(
@@ -45,8 +48,13 @@ class Lesson_model extends CI_Model
 			lesson_model::S_COMPLETE => array(),
 		),
 		
-		lesson_model::S_PAUSED => array(
+		lesson_model::S_WAIT => array(
 			lesson_model::S_COMPLETE => array(),
+		),
+
+		lesson_model::S_PAID => array(
+			lesson_model::S_COMPLETE => array(),
+			lesson_model::S_CANCELED => array(),
 		),
 	);
 	
@@ -64,7 +72,7 @@ class Lesson_model extends CI_Model
 		
 		$this->default_data = array();
 		
-		//$this->load->model('order_log_model');
+		//$this->load->model('lesson_log_model');
 	}
 	
 	/**
@@ -85,54 +93,41 @@ class Lesson_model extends CI_Model
 		if (isset($data['order_by'])) { $this->db->order_by($data['order_by']); } else { $this->db->order_by('o.start_date ASC'); }
 		
 		$this->db
-			->select('o.*, lol.last_update AS status_date, lol.data AS status_data, COUNT(DISTINCT ol.id) AS comments_count, c.name, c.description AS client_description, c.phones, c.data AS client_data')
+			->select('o.*, c.name, c.description AS client_description, c.phones, c.data AS client_data')
 			->from(T_LESSONS.' AS o')
 			->join(T_CLIENTS.' AS c', 'c.id = o.client_id', 'LEFT')
-			->join(T_LESSONS_LOG.' AS ol', 'ol.lesson_id = o.id AND ol.type = 1', 'LEFT')
-			->join(T_LESSONS_LOG.' AS lol', 'lol.lesson_id = o.id AND lol.type = 2 AND lol.comment LIKE \'status-%\'', 'LEFT')
+			//->join(T_LESSONS_LOG.' AS ol', 'ol.lesson_id = o.id AND ol.type = 1', 'LEFT')
+			//->join(T_LESSONS_LOG.' AS lol', 'lol.lesson_id = o.id AND lol.type = 2 AND lol.comment LIKE \'status-%\'', 'LEFT')
 			->group_by('o.id');
 			
-		$orders = array_to_assoc($this->db->get()->result_array(), 'id');
+		$lessons = array_to_assoc($this->db->get()->result_array(), 'id');
 		
-		foreach ($orders as $id => $order) {
-			$orders[$id]['data'] = (array) json_decode($order['data'], true);
-			$orders[$id]['client_data'] = (array) json_decode($order['client_data'], true);
-			if (empty($orders[$id]['data'])) {
-				$orders[$id]['data'] = $this->default_data;
+		foreach ($lessons as $id => $lesson) {
+			$lessons[$id]['data'] = (array) json_decode($lesson['data'], true);
+			$lessons[$id]['client_data'] = (array) json_decode($lesson['client_data'], true);
+			if (empty($lessons[$id]['data'])) {
+				$lessons[$id]['data'] = $this->default_data;
 			}
 
-			$orders[$id]['client_cost'] = (!empty($orders[$id]['client_data']['cost']) ? $orders[$id]['client_data']['cost'] : 0);
-			$orders[$id]['client_duration'] = (!empty($orders[$id]['client_data']['duration']) ? $orders[$id]['client_data']['duration'] : 60);
+			$lessons[$id]['client_cost'] = (!empty($lessons[$id]['client_data']['cost']) ? $lessons[$id]['client_data']['cost'] : 0);
+			$lessons[$id]['client_duration'] = (!empty($lessons[$id]['client_data']['duration']) ? $lessons[$id]['client_data']['duration'] : 60);
 			
-			//$orders[$id]['items'] = (array) json_decode($order['items'], true);
-
-			/*
-			if (isset($orders[$id]['data']['delivery_id']) && !empty($data['only_delivery']) && $orders[$id]['data']['delivery_id'] == 2) {
-				unset($orders[$id]);
-				continue;
-			}
-			/*
-			if ($orders[$id]['status'] == lesson_model::S_ACTIVE && !empty($orders[$id]['ready_date']) && time() > strtotime($orders[$id]['ready_date'])) {
-				$orders[$id]['is_late'] = true;
-			} else {
-				$orders[$id]['is_late'] = false;
-			}
-			 */
+			
 		}
 		//echo $this->db->last_query();
 		//exit;
-		return $orders;
+		return $lessons;
 	}
 	
 	public function get_by_id($id) {
-		$orders = $this->get(array('id' => $id));
-		$order = (!empty($orders[$id]) ? $orders[$id] : array());
+		$lessons = $this->get(array('id' => $id));
+		$lesson = (!empty($lessons[$id]) ? $lessons[$id] : array());
 		
-		if (!empty($order)) {
+		if (!empty($lesson)) {
 			
 			
 		}
-		return $order;
+		return $lesson;
 	}
 	
 	/**
@@ -154,8 +149,8 @@ class Lesson_model extends CI_Model
 			$data['client_cost'] = $client['data']['cost'];
 			$data['client_duration'] = $client['data']['duration'];
 		}
-		$old_order = $this->get_by_id($data['id']);
-		$data['data'] = (!empty($old_order) ? $old_order['data'] : $this->default_data);
+		$old_lesson = $this->get_by_id($data['id']);
+		$data['data'] = (!empty($old_lesson) ? $old_lesson['data'] : $this->default_data);
 		$data['cost'] = floatval(round($data['client_cost'] * floatval($data['duration']))/$data['client_duration']);
 		
 
@@ -179,21 +174,21 @@ class Lesson_model extends CI_Model
 			$data['id'] = $id;
 		}
 		
-		$order = $this->db->from(T_LESSONS)->where('id', $data['id'])->get()->row_array();
+		$lesson = $this->db->from(T_LESSONS)->where('id', $data['id'])->get()->row_array();
 		
-		if ($order['status'] == lesson_model::S_DRAFT) {
+		if ($lesson['status'] == lesson_model::S_DRAFT) {
 			/*
 			 *
-			 if (!empty($order['delivery_date']) && $order['delivery_date'] < date('Y-m-d 00:00:00', time()-24*3600)) {
-				$this->status($order['id'], lesson_model::S_COMPLETE);
+			 if (!empty($lesson['delivery_date']) && $lesson['delivery_date'] < date('Y-m-d 00:00:00', time()-24*3600)) {
+				$this->status($lesson['id'], lesson_model::S_COMPLETE);
 			}
 			*/
 		}
 		
-		$order = $this->get_by_id($data['id']);
+		$lesson = $this->get_by_id($data['id']);
 		
-		if (!empty($old_order)) {
-			$order_id = $data['id'];
+		if (!empty($old_lesson)) {
+			$lesson_id = $data['id'];
 			
 			
 		}
@@ -206,32 +201,32 @@ class Lesson_model extends CI_Model
 			'status' => -1
 		);
 		
-		$order = $this->get_by_id($id);
+		$lesson = $this->get_by_id($id);
 		
-		if (!empty($order['id'])) {
-			$old_status = $order['status'];
+		if (!empty($lesson['id'])) {
+			$old_status = $lesson['status'];
 			
-			if (isset(lesson_model::$status_changes[$order['status']][$status])) {
+			if (isset(lesson_model::$status_changes[$lesson['status']][$status])) {
 				$this->db->where('id', $id)->update(T_LESSONS, array('status' => $status));
 				
 				$log_data = array('old' => $old_status, 'new' => $status);
-				//$this->order_log_model->log($id, order_log_model::EV_STATUS.$status, $log_data);
+				//$this->lesson_log_model->log($id, lesson_log_model::EV_STATUS.$status, $log_data);
 
 				if ($old_status == lesson_model::S_COMPLETE && $status != lesson_model::S_COMPLETE) {
-					$this->db->where('lesson_id', $order['id'])->delete(T_FINANCES);
+					$this->db->where('lesson_id', $lesson['id'])->delete(T_FINANCES);
 				}
 				
-				if ($status == lesson_model::S_COMPLETE) {
-					//$this->finance_model->order($id);
-					$this->db->where('lesson_id', $order['id'])->delete(T_FINANCES);
+				if ($status == lesson_model::S_COMPLETE || $status == lesson_model::S_PAID) {
+					//$this->finance_model->lesson($id);
+					$this->db->where('lesson_id', $lesson['id'])->delete(T_FINANCES);
 					$this->db->set(array(
-						'user_id' => $order['user_id'],
+						'user_id' => $lesson['user_id'],
 						'type' => 1,
 						'math' => 1,
-						'amount' => $order['cost'],
-						'description' => 'Оплата занятия #'.$order['id'],
-						'lesson_id' => $order['id'],
-						'client_id' => $order['client_id'],
+						'amount' => $lesson['cost'],
+						'description' => 'Оплата занятия #'.$lesson['id'],
+						'lesson_id' => $lesson['id'],
+						'client_id' => $lesson['client_id'],
 						'payment_date' => date('Y-m-d H:i:s')
 					))->insert(T_FINANCES);
 				}
