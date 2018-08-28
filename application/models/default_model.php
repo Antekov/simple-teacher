@@ -24,6 +24,8 @@ class default_model extends CI_Model {
 			$this->ci->stash['auth_user'] 	= $this->auth->user;
 		}
 		$this->ci->stash['js'] = array();
+
+		date_default_timezone_set('Europe/Moscow');
 	}
 	private function check_set_lang() {
 		if ($this->input->get('lang')) {
