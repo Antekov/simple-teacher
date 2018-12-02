@@ -42,9 +42,10 @@ var lessons = new function() {
 		g.go({url: '/lesson/edit/'+lesson_id+'/'+client_id});
 	};
 	
-	this.close = function(client_id) {
+	this.close = function(return_url) {
 		//g.go({url: '/lesson/?id='+user_id});
-		g.go({url: '/client/edit/'+client_id+'#lessons'});
+		//g.go({url: '/client/edit/'+client_id+'#lessons'});
+		g.go({url: return_url});
 	}
 	
 	this.save = function(d) {
@@ -62,8 +63,13 @@ var lessons = new function() {
 			success: function(data) {
 				if (data.status == 1) {
 					
-					//projects.init();
-					lessons.close(data.client_id);
+					if (data.return_url != '') {
+						return_url = data.return_url
+					} else {
+						return_url = '/client/edit/'+data.client_id+'#lessons' 
+					}
+					//console.log(return_url);
+					lessons.close(return_url);
 				}
 				
 			},

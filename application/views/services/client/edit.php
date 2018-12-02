@@ -4,7 +4,7 @@
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="#info" data-toggle="tab">Информация</a></li>
 		<li><a href="#lessons" data-toggle="tab">Занятия</a></li>
-		<li><a href="#shedule" data-toggle="tab">Расписание</a></li>
+		<li><a href="#schedule" data-toggle="tab">Расписание</a></li>
 	</ul>
 	<div class="tab-content cf-tab-content">
 		<div class="tab-pane active" id="info">
@@ -168,7 +168,12 @@
 				<i class="fa fa-plus"></i> Добавить
 			</button>
 		</div>
-		<div class="tab-pane" id="shedule">Расписание</div>
+		<div class="tab-pane" id="schedule">
+			<? $this->load->view('services/client/schedule/list', $this->stash); ?>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/0/<?=$client['id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })">
+				<i class="fa fa-plus"></i> Добавить
+			</button>
+		</div>
 	</div>
 </form>
 

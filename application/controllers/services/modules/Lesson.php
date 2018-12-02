@@ -139,12 +139,14 @@ class Lesson extends CI_Controller
 
 		if ($data !== false) {
 			$data['start_date'] = (!empty($data['start_date']) ? date('Y-m-d H:i:00', strtotime($data['start_date'])) : date('Y-m-d H:00:00'));
-
+			$return_url = (!empty($data['return_url']) ? $data['return_url'] : '');
+			
 			$data = $this->lesson_model->save($data);
 
 			$this->stash['json'] = array(
 				'status' => 1,
 				'client_id' => $data['client_id'],
+				'return_url' => $return_url,
 				'id' => $data['id']
 			);
 		} else {

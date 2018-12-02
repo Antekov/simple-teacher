@@ -21,6 +21,7 @@
 	<input type="hidden" name="start_date" value="<?=$lesson['start_date']?>">
 	<input type="hidden" name="cost" value="<?=$lesson['cost']?>">
 	<input type="hidden" name="duration" class="data-duration" value="<?=$lesson['duration']?>">
+	<input type="hidden" name="return_url" value="/lesson/">
 
 			<div class="row">
 				<? if (empty($client) && !empty($clients)) { ?>
