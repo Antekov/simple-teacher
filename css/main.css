@@ -497,7 +497,6 @@
 .lesson .status-0 .status-title { color: #A0A0A0; }
 .lesson .status-0 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -516,7 +515,6 @@
 .lesson .status-1 .status-title { }
 .lesson .status-1 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -535,7 +533,6 @@
 .lesson .status-1.late .status-title { color: #FD5F5F; }
 .lesson .status-1.late .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -554,7 +551,6 @@
 .lesson .status-3 .status-title { color: #287100; }
 .lesson .status-3 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -572,7 +568,6 @@
 .lesson .status-2 .status-title { color: #777777; }
 .lesson .status-2 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -590,7 +585,6 @@
 .lesson .status-4 .status-title { color: #A0A0A0; }
 .lesson .status-4 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -609,7 +603,6 @@
 .lesson .status-5 .status-title { color: #A0A0A0; }
 .lesson .status-5 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -631,7 +624,6 @@
 .cd-status-0 { color: #A0A0A0; }
 .cd-status-0:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -650,7 +642,6 @@
 .cd-status-3 { }
 .cd-status-3:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -669,7 +660,6 @@
 .cd-status-4 { color: #FD5F5F; }
 .cd-status-4:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -688,7 +678,6 @@
 .cd-status-1 { color: #287100; }
 .cd-status-1:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -706,7 +695,6 @@
 .cd-status-2 { color: #777777; }
 .cd-status-2:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -724,7 +712,6 @@
 .cd-status-2 { color: #A0A0A0; }
 .cd-status-2:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -744,7 +731,6 @@
 .ld-status-0 { color: #A0A0A0; }
 .ld-status-0:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -765,7 +751,6 @@
 .ld-status-2 { }
 .ld-status-2:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -786,7 +771,6 @@
 .ld-status-3 { color: #FD5F5F; }
 .ld-status-3:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -805,7 +789,6 @@
 .ld-status-1 { color: #287100; }
 .ld-status-1:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -824,7 +807,6 @@
 .ld-status-5 { color: #A0A0A0; }
 .ld-status-5:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
