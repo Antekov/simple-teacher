@@ -50,6 +50,52 @@ class Authentication extends CI_Controller {
 		redirect('login');
 	}
 	
+	public function registration() {
+		$this->output->enable_profiler(FALSE);
+		$this->stash['return'] = $this->input->get('return');
+		$this->stash['error'] = false;
+
+		if ( $this->input->post('login') ) {
+			$login = $this->input->post('login', TRUE);
+			$password = $this->input->post('pass', TRUE);
+			$password2 = $this->input->post('pass2', TRUE);
+
+			$users = $this->db->select('*')->from('users')->where(array('login' => $login))->get()->result_array();
+
+			if (count($users) > 0)	 {
+				$this->auth->unset_authenticated();
+				$this->stash['login'] = $this->input->post('login');
+				$this->stash['pass'] = $this->input->post('pass');
+				$this->stash['error'] = true;
+				if(true || $this->input->post('json') ){
+					$this->stash['json'] = array('status'=>0 );
+				}
+			    
+			} else {
+				$this->db->insert('users', array(
+					'login' => $login,
+					'password' => md5($password),
+					'parent_id' => 1
+				));
+
+				$users = $this->db->select('*')->from('users')->where(array('login' => $login, 'password' => md5($password)))->get()->result_array();
+				$user = $users[0];
+				$this->auth->set_authenticated($user['id']);
+				if( $this->stash['return'] == ''){
+					header('Location: /dashboard/');
+					return;
+				}
+				if ($this->input->post('json') or $this->input->get('json')) {
+					$this->stash['json'] = array('status'=>1, 'redirect'=>$this->stash['return'] );
+				} else {
+					redirect( $this->stash['return'] );
+				}
+			}
+		}
+		
+		$this->load->view('authentication/registration', $this->stash);
+	}
+
 	private function check_auth_level(){
 		$ip = ( !isset($_SERVER['REMOTE_ADDR1']) ) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR1'];
 		if( in_array( $ip, $this->config->item('inner_ip')) ){

@@ -27,13 +27,22 @@ $this->load->view('header');
 					</div>
 					<br>
 					<input class="col-md-12 btn btn-info btn-lg" type="submit" value="Войти">
+					<br>
+					<br>
+					<br>
+					<div class="ta-center">
+						<a href="/registration"><i class="fa fa-user-plus" aria-hidden="true"></i> Создать аккаунт</a>
+					</div>
 				</form>
-
+				
 			</div>
-
 			<div class="clear"></div>
+			
 		</div>
+		
 	</div>
+	
+	
 </div>
 
 <?

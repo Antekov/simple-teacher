@@ -43,6 +43,10 @@
 	font-size: 1.2em;
 }
 
+.ta-center {
+	text-align: center;
+}
+
 .th-left, .th-right {
 	/* width: 6.33333em; */
 	-webkit-flex-shrink: 0;

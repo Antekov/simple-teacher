@@ -53,6 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['js/(.*)'] = 'js/$1';
 $route['(.*)login'] = 'authentication/login';
 $route['logout'] = 'authentication/logout';
+$route['(.*)registration'] = 'authentication/registration';
 $route['services/(.*)'] = 'services/modules/$1';
 $route['(client|timetable|lesson|profile)/(.*)'] = 'modules/$1/$2';
 $route['(client|timetable|lesson|profile)'] = 'modules/$1';
