@@ -42,9 +42,13 @@ var lessons = new function() {
 		g.go({url: '/lesson/edit/'+lesson_id+'/'+client_id});
 	};
 	
-	this.close = function(return_url) {
-		//g.go({url: '/lesson/?id='+user_id});
-		//g.go({url: '/client/edit/'+client_id+'#lessons'});
+	this.close = function(data) {
+		if (data.return_url != '') {
+			return_url = data.return_url
+		} else {
+			return_url = '/client/edit/'+data.client_id+'#lessons' 
+		}
+		
 		g.go({url: return_url});
 	}
 	
@@ -62,16 +66,8 @@ var lessons = new function() {
 			data: $('#lesson_form').serializeArray(),
 			success: function(data) {
 				if (data.status == 1) {
-					
-					if (data.return_url != '') {
-						return_url = data.return_url
-					} else {
-						return_url = '/client/edit/'+data.client_id+'#lessons' 
-					}
-					//console.log(return_url);
-					lessons.close(return_url);
+					lessons.close(data);
 				}
-				
 			},
 			dataType: 'json'
 		});
