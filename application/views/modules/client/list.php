@@ -8,7 +8,7 @@
 		<th>Статус</th>
 		<th>Действия</th>
 	</tr>
-<? $i=1; foreach ($clients as $client) { ?>
+<?php $i=1; foreach ($clients as $client) { ?>
 	<tr>
 		<td class="" onclick="clients.open('<?=$client['id']?>')">
 			<span class="cd-place cd-place-<?=$client['place']?>"></span>
@@ -28,6 +28,6 @@
 				...
 			</button></td>
 	</tr>
-<? } ?>
+<?php } ?>
 </table>
 

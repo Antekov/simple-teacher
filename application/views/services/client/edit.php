@@ -70,7 +70,7 @@
 		<div class="col-md-4">
 			<div class="field-title">Телефон</div>
 				<span id="phones">
-				<? if (empty($client['phones'])) {
+				<?php if (empty($client['phones'])) {
 					$client['phones'][0] = '';
 				}
 				foreach ($client['phones'] as $d => $phone) { ?>
@@ -91,7 +91,7 @@
 						</div>
 					</div><!-- /input-group -->
 
-				<? } ?>
+				<?php } ?>
 				</span>
 			<div id="new_phone" style="display: none">
 				<input type="text" name="phones[]" style="width: 200px;" placeholder="+7 9XX XXX-XX-XX">
@@ -143,33 +143,33 @@
 			</div>
 
 		</div>
-		<? if (!empty($client['external_id'])) { ?>
+		<?php if (!empty($client['external_id'])) { ?>
 		<div class="col-md-4">
 			<div class="field-title">Цена заказа</div>
 			<div class="input-group">
 				<span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-times"></i></span>
 				<input type="number" class="form-control" name="data[tax]" value="<?=(!empty($client['data']['tax']) ? $client['data']['tax'] : '')?>" placeholder="Цена заказа">
-				<? if (empty($client['data']['tax_paid'])) { ?>
+				<?php if (empty($client['data']['tax_paid'])) { ?>
 					<div class="input-group-btn">
 						<button type="button" class="btn btn-default" tabindex="-1" onclick="clients.payTax();">Оплатить</button>
 					</div>
-				<? } else { ?>
+				<?php } else { ?>
 					<span class="input-group-addon"><i class="fa fa-check"></i> Оплачено</span>
-				<? } ?>
+				<?php } ?>
 			</div>
 		</div>
-		<? } ?>
+		<?php } ?>
 	</div>
 
 			</div>
 		<div class="tab-pane" id="lessons">
-			<? $this->load->view('services/client/lesson/list', $this->stash); ?>
+			<?php $this->load->view('services/client/lesson/list', $this->stash); ?>
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/0/<?=$client['id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })">
 				<i class="fa fa-plus"></i> Добавить
 			</button>
 		</div>
 		<div class="tab-pane" id="schedule">
-			<? $this->load->view('services/client/schedule/list', $this->stash); ?>
+			<?php $this->load->view('services/client/schedule/list', $this->stash); ?>
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/0/<?=$client['id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })">
 				<i class="fa fa-plus"></i> Добавить
 			</button>

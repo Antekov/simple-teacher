@@ -1,6 +1,6 @@
-<? if( isset($users)){ ?>
+<?php if( isset($users)){ ?>
 	<ul class="login-users">
-	<? foreach( $users as $user ){
+	<?php foreach( $users as $user ){
 		$fio = explode(' ', $user['fio']);
 		if( isset($fio[2])) unset( $fio[2] );
 		$fio = implode(' ', $fio);
@@ -12,6 +12,6 @@
 			<img style="background-image:url(<?=$avatar?>);" src="/i/d-t.gif" class="avatar" />
 			<?=$fio?>
 		</li>
-	<? } ?>
+	<?php } ?>
 	</ul>
-<? } ?>
+<?php } ?>

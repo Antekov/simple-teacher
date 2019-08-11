@@ -10,12 +10,12 @@ $this->load->view('header');
 			</div>
 			<div class="content ta-center">
 				<form id="login_form" method="post" action="/login?return=&random=<?=time()?>">
-					<? if (isset($error) && $error) { ?>
+					<?php if (isset($error) && $error) { ?>
 					<div class="alert alert-danger alert-dismissible" role="alert">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<strong>Ошибка!</strong><br>Неверная комбинация логин / пароль.
 					</div>
-					<? } ?>
+					<?php } ?>
 					<div class="input-group input-group-lg">
 						<span class="input-group-addon" id="basic-addon-login"><i class="fa fa-user" aria-hidden="true"></i></span>
 						<input type="text" class="form-control" name="login" value="<?= isset($login) ? $login : '' ?>" placeholder="Логин" aria-describedby="basic-addon-login">

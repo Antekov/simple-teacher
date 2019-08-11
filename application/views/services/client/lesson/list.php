@@ -1,5 +1,5 @@
 <div class="lesson-items">
-	<? foreach ($lessons as $lesson) { ?>
+	<?php foreach ($lessons as $lesson) { ?>
 		<div class="li-item">
 			<div class="lii-status">
 				<span class="ld-status ld-status-<?=$lesson['status']?>"></span>
@@ -23,7 +23,7 @@
 				</div>
 			</div>
 		</div>
-	<? } ?>
+	<?php } ?>
 </div>
 <div class="">
 	<table class="table-lesson list-table zebra">
@@ -34,7 +34,7 @@
 			<th>Описание</th>
 			<th>Действия</th>
 		</tr>
-		<? foreach ($lessons as $lesson) { ?>
+		<?php foreach ($lessons as $lesson) { ?>
 			<tr class="status-<?=$lesson['status']?>">
 				<td onclick="lessons.open('<?=$lesson['id']?>')">
 					<span class="ld-date"><?=unix_to_human($lesson['start_date'], 'd mnth %Y')?></span>
@@ -49,7 +49,7 @@
 						...
 					</button></td>
 			</tr>
-		<? } ?>
+		<?php } ?>
 	</table>
 
 </div>

@@ -15,7 +15,7 @@ $this->load->view('left_menu', $this->stash); ?>
 					<span class="ct-description"><?=$client['description']?></span>
 					<span class="ct-cost"><span class="ctc-cost"><?=$client['data']['cost']?></span><span class="ctc-duration"> руб. / <?=$client['data']['duration']?> мин.</span></span>
 				</h1>
-				<? $this->load->view('services/client/edit', $this->stash); ?>
+				<?php $this->load->view('services/client/edit', $this->stash); ?>
 				<nav class="navbar navbar-default" role="navigation">
 					<div class="container">
 						<button type="button" class="btn btn-success navbar-btn" onclick="clients.save(clients.id)">Сохранить</button>

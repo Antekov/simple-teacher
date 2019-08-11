@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->view('header', $this->stash);
 
-?><? $this->load->view('top_menu', $this->stash); ?><div class="container">
+?><?php $this->load->view('top_menu', $this->stash); ?><div class="container">
 
 		<!-- Main component for a primary marketing message or call to action -->
 		<div class="jumbotron">

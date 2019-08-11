@@ -19,10 +19,10 @@ function func($a) {
 	</div>
 	<div class="content ta-center">
 <form id="login_form" method="post" action="/login?return=<?=$return ?>&random=<?=time()?>">
-				<? if (isset($error) && $error) { ?> 
+				<?php if (isset($error) && $error) { ?> 
 				<div class="error">Wrong login-password combination. Try again.</div>
-				<? } ?>
-						<input class="ta-center" type="text" id="login" size="16" name="login" value="<? echo isset($login) ? $login : '' ?>" placeholder="Логин / тел. / e-mail"/>
+				<?php } ?>
+						<input class="ta-center" type="text" id="login" size="16" name="login" value="<?php echo isset($login) ? $login : '' ?>" placeholder="Логин / тел. / e-mail"/>
 					<br>
 					<input class="ta-center" type="password" id="pass" size="16" name="pass" value="" placeholder="Пароль"/>
 					<div class="toolbar">
@@ -32,7 +32,7 @@ function func($a) {
 			</form>
 			<form id="password_form" action="/ajax/customer/customer/password" method="post" onsubmit="return false;" style="display: none;">
 				<h3>Прислать новый пароль на</h3>
-				<input class="ta-center" type="text" id="login" size="16" name="login" value="<? echo isset($login) ? $login : '' ?>" placeholder="телефон / e-mail"/><br>
+				<input class="ta-center" type="text" id="login" size="16" name="login" value="<?php echo isset($login) ? $login : '' ?>" placeholder="телефон / e-mail"/><br>
 				<div class="button button_default" onclick="customer.password(this.form);">Отправить</div><br><br>
 				<a href="#" onclick="$('#password_form').hide(); $('#login_form').show(); return false;">Отмена</a>
 			</td>

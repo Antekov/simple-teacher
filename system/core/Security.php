@@ -420,7 +420,7 @@ class CI_Security {
 			// Images have a tendency to have the PHP short opening and
 			// closing tags every so often so we skip those and only
 			// do the long opening tags.
-			$str = preg_replace('/<\?(php)/i', '&lt;?\\1', $str);
+			$str = preg_replace('/<?(php)/i', '&lt;?\\1', $str);
 		}
 		else
 		{

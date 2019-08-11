@@ -75,7 +75,7 @@ $this->load->view('left_menu', $this->stash); ?>
 								<div class="col-md-4">
 									<div class="field-title">Телефон</div>
 				<span id="phones">
-				<? if (empty($user['phones'])) {
+				<?php if (empty($user['phones'])) {
 					$user['phones'][0] = '';
 				}
 				foreach ($user['phones'] as $d => $phone) { ?>
@@ -96,7 +96,7 @@ $this->load->view('left_menu', $this->stash); ?>
 						</div>
 					</div><!-- /input-group -->
 
-				<? } ?>
+				<?php } ?>
 				</span>
 									<div id="new_phone" style="display: none">
 										<input type="text" name="phones[]" style="width: 200px;" placeholder="+7 9XX XXX-XX-XX">
@@ -138,7 +138,7 @@ $this->load->view('left_menu', $this->stash); ?>
 
 						</div>
 						<div class="tab-pane" id="lessons">
-							<? $this->load->view('services/client/lesson/list', $this->stash); ?>
+							<?php $this->load->view('services/client/lesson/list', $this->stash); ?>
 							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/0/<?=$user['id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })">
 								<i class="fa fa-plus"></i> Добавить
 							</button>
