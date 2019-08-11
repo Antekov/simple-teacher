@@ -1,5 +1,4 @@
 <?php
-
 class Auth {
 	private $ci;
 	public $user;
