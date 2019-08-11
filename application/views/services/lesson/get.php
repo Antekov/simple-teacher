@@ -59,7 +59,7 @@
 		<?php } ?>
 	</div>
 	<div class="timetable-busy-time-items">
-		<?
+		<?php
 		
 		if (!empty($this->auth->user['data']['busy_time'])) {
 		$busy_time = $this->auth->user['data']['busy_time'];
