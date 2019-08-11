@@ -5,7 +5,7 @@ $this->load->view('left_menu', $this->stash);
 ?>
 <div class="body-container">
 	<div class="content j-content">
-		<? $this->load->view('top_header', $this->stash); ?>
+		<?php $this->load->view('top_header', $this->stash); ?>
 
 		<!-- Main component for a primary marketing message or call to action -->
 		<div class="jumbotron">

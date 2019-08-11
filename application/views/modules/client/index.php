@@ -4,11 +4,9 @@ $this->load->view('header', $this->stash);
 $this->load->view('left_menu', $this->stash); ?>
 	<div class="body-container">
 		<div class="content j-content">
-			<? $this->load->view('top_header', $this->stash); ?>
+			<?php $this->load->view('top_header', $this->stash); ?>
 
-
-			<? $this->load->view('modules/client/list', $this->stash); ?>
-
+			<?php $this->load->view('modules/client/list', $this->stash); ?>
 
 			<!-- Modal -->
 			<div class="modal fade" id="clientEditModal" tabindex="-1" role="dialog" aria-labelledby="clientEditModalLabel"

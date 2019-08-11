@@ -4,7 +4,7 @@ $this->load->view('header', $this->stash);
 $this->load->view('left_menu', $this->stash); ?>
 <div class="body-container">
 	<div class="content j-content">
-	<? $this->load->view('top_header', $this->stash); ?>
+	<?php $this->load->view('top_header', $this->stash); ?>
 		<div class="container">
 		<div class="row">
 			<div class="col-sm-10 col-sm-offset-1">
