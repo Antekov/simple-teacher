@@ -182,6 +182,5 @@ $this->load->view('left_menu', $this->stash); ?>
 	</div>
 
 
-<?
+<?php
 $this->load->view('footer');
-?>

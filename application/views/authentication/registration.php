@@ -62,6 +62,6 @@ check = function() {
 $('.j-login, .j-pass, .j-pass2').change(check).keyup(check).focus(check);
 </script>
 
-<?
+<?php
 $this->load->view('footer');
 ?>

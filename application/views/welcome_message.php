@@ -16,6 +16,6 @@ $this->load->view('header', $this->stash);
 
 </div>
 
-<?
+<?php
 $this->load->view('footer');
-?>
+

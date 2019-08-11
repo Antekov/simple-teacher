@@ -18,7 +18,7 @@ $this->load->view('header');
 					<? } ?>
 					<div class="input-group input-group-lg">
 						<span class="input-group-addon" id="basic-addon-login"><i class="fa fa-user" aria-hidden="true"></i></span>
-						<input type="text" class="form-control" name="login" value="<? echo isset($login) ? $login : '' ?>" placeholder="Логин" aria-describedby="basic-addon-login">
+						<input type="text" class="form-control" name="login" value="<?= isset($login) ? $login : '' ?>" placeholder="Логин" aria-describedby="basic-addon-login">
 					</div>
 					<br>
 					<div class="input-group input-group-lg">
@@ -37,14 +37,9 @@ $this->load->view('header');
 				
 			</div>
 			<div class="clear"></div>
-			
 		</div>
-		
 	</div>
-	
-	
 </div>
-
-<?
+<?php
 $this->load->view('footer');
 ?>

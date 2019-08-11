@@ -7,6 +7,6 @@ $this->load->view('left_menu', $this->stash); ?>
 	<? $this->load->view('top_header', $this->stash); ?>
 		<? $this->load->view('services/client/lesson/edit', $this->stash); ?>
 
-<?
+<?php
 $this->load->view('footer');
 ?>
