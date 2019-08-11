@@ -31,7 +31,13 @@ var lessons = new function() {
 				)
 			};
 
+			// Собираем дату и время занятия в одно поле при изменении полей даты и времени
 			$('.lf-date-input, .lf-time-input', form).on('change keyup', self.changeDate);
+			
+			// При смене клиента меняем продолжительность занятия на типовую для этого клиента
+			$('[name="client_id"]', form).on('change keyup', function() {
+				$('.data-duration').val($('option', this)[this.selectedIndex].dataset['duration']);
+			});
 
 			$('.lf-date-input')[0].focus();
 		}
@@ -55,22 +61,28 @@ var lessons = new function() {
 	this.save = function(d) {
 		var d = d || {}
 		
+		var form = $('#lesson_form');
 
-		var url = '/services/lesson/save/';
-		
-		g.overlay(true);
-		
-		$.ajax({
-			type: "POST",
-			url: url,
-			data: $('#lesson_form').serializeArray(),
-			success: function(data) {
-				if (data.status == 1) {
-					lessons.close(data);
-				}
-			},
-			dataType: 'json'
-		});
+		if (form.length) {
+
+			if ($('select[name="client_id"]', form).val() == '') return;
+
+			var url = '/services/lesson/save/';
+			
+			g.overlay(true);
+			
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: form.serializeArray(),
+				success: function(data) {
+					if (data.status == 1) {
+						lessons.close(data);
+					}
+				},
+				dataType: 'json'
+			});
+		}
 	}
 	
 	this.status = function(status) {
