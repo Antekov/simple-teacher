@@ -439,13 +439,14 @@ if ( ! function_exists('unix_to_human'))
 			if ($datetime == '') { return ''; }
 			$stop_words = array(' ', '.', ',', '/', ':', '-', 'c', 'в');
 			$word = [];
-			$delimiter = '';
+			$delimiter = [];
 			$dt = explode(' ', $datetime);
 			$date_fmt = '';
 			if( strpos($dt[0], '-') != FALSE ){
 				list($Y, $m, $d) = explode('-', $dt[0]);
 			}else{
 				list($d, $m, $Y) = explode('.', $dt[0]);
+				
 			}
 			if (isset($dt[1])) {
 				$_time = explode(':', $dt[1]);
@@ -475,12 +476,12 @@ if ( ! function_exists('unix_to_human'))
 					}
 				}
 			}
-			#print_r($word);
+			
 			for ($n = 0; $n <= $c; $n++) {
 				if (isset($delimiter[$n])) {
 					$date_fmt .= $delimiter[$n];
 				}
-
+				
 				if (isset($word[$n])) {
 					switch($word[$n]) {
 						case 'w' :
