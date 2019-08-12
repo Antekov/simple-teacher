@@ -169,10 +169,7 @@
 			</button>
 		</div>
 		<div class="tab-pane" id="schedule">
-			<?php $this->load->view('services/client/schedule/list', $this->stash); ?>
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/0/<?=$client['id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })">
-				<i class="fa fa-plus"></i> Добавить
-			</button>
+			<div>В разработке...</div>
 		</div>
 	</div>
 </form>
