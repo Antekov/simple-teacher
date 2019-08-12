@@ -85,13 +85,12 @@
                         </ul>
                     </div>
                 </div>
-
             </div>
         </div>
 
 
 	</div>
-	<?php if (empty($client) && !empty($clients)) { ?>
+	<?php if (!empty($clients)) { ?>
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <button type="button" class="btn btn-default navbar-btn"
