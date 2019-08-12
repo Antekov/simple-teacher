@@ -34,17 +34,13 @@
 	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
+	-webkit-justify-content: left;
 	-ms-flex-pack: justify;
-	justify-content: space-between;
+	justify-content: left;
 	border-bottom: 1px solid #DDD;
 	background: #F3F3F3;
 	line-height: 1em;
 	font-size: 1.2em;
-}
-
-.ta-center {
-	text-align: center;
 }
 
 .th-left, .th-right {
@@ -77,10 +73,18 @@
 .th-title {
 	display: inline-block;
 	font-size: 1.5em;
-	padding: 0.5em 0 0.5em 0.25em ;
+	padding: 0.5em 0.5em 0.5em 0.5em ;
 	text-align: center;
 	position: relative;
 	line-height: 1em;
+	border-left: 1px solid #DDD;
+	color: #58584f;
+}
+
+@media (max-width: 768px) {
+	.th-title {
+		display: none;
+	}
 }
 
 .search-form {
@@ -872,7 +876,7 @@
 	padding: 0.2em;
 	background: #effff2;
 	border: 1px solid #caf1ca;
-	text-wrap: none;
+	word-wrap: none;
 	display: flex;
 	max-width: 5em;
 	flex-direction: column;
@@ -910,8 +914,6 @@
 	font-size: 0.833333em;
 	color: #777;
 }
-
-.table-clients {}
 
 .table-clients {
 	width: 100%;
@@ -971,6 +973,12 @@
 	font-size: 0.83333em;
 	text-wrap: none;
 	white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+	.ct-cost, .ct-description {
+		display: none
+	}
 }
 
 .ctc-cost {
@@ -1159,7 +1167,7 @@
 	padding: 0.2em;
 	background: #effff2;
 	border: 1px solid #caf1ca;
-	text-wrap: none;
+	word-wrap: none;
 	display: flex;
 	max-width: 5em;
 	flex-direction: column;
@@ -1271,4 +1279,8 @@
 	height: 1.5em;
 	border-bottom: 1px solid #EEE;
 
+}
+
+.ta-center {
+	text-align: center;
 }

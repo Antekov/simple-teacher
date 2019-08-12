@@ -16,7 +16,7 @@ if (empty($header_title)) { $header_title = array(); }
 		<?php } ?>
 	</div>
 	<div class="th-right">
-		<div class="th-button j-top-search-button"><i class="fa fa-search"></i></div>
+		<!-- <div class="th-button j-top-search-button"><i class="fa fa-search"></i></div> -->
 	</div>
 </div>
 
@@ -25,13 +25,15 @@ if (empty($header_title)) { $header_title = array(); }
 		history.back();
 	});
 
+	/*
 	$('.j-top-search-button').click(function () {
 		if (!$('.j-top-menu').is(':visible')) {
 			$('.j-top-menu-button').click();
 		}
 		$('.j-search-query').focus();
 	});
-
+	*/
+	
 	$('.j-left-menu-button').click(function () {
 		var that = this;
 		var $menu = $('.j-left-menu');

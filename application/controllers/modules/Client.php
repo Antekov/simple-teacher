@@ -84,8 +84,8 @@ class Client extends CI_Controller {
 			$client = $this->client_model->default_fields_values;
 		}
 		$this->stash['header_title'] = array(
-			array('name' => '<i class="fa fa-users"></i> Ученики'),
-			array('name' => '<i class="fa fa-angle-right"></i> <span class="ct-name j-client-name">'.(!empty($client['name']) ? $client['name'] : 'Новый').'<span>')
+			array('name' => '<i class="fa fa-users"></i> Ученики')
+			//array('name' => '<i class="fa fa-angle-right"></i> <span class="ct-name j-client-name">'.(!empty($client['name']) ? $client['name'] : 'Новый').'<span>')
 		);
 
 		$this->stash['header_buttons'] = array(
