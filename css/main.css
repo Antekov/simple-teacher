@@ -1284,3 +1284,10 @@
 .ta-center {
 	text-align: center;
 }
+
+@media (min-width: 0px) {
+	.navbar-nav {
+		float: left;
+		margin: 0;
+	}
+}

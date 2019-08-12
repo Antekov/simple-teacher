@@ -54,8 +54,8 @@ $route['(.*)login'] = 'authentication/login';
 $route['logout'] = 'authentication/logout';
 $route['(.*)registration'] = 'authentication/registration';
 $route['services/(.*)'] = 'services/modules/$1';
-$route['(client|timetable|lesson|profile)/(.*)'] = 'modules/$1/$2';
-$route['(client|timetable|lesson|profile)'] = 'modules/$1';
+$route['(client|timetable|lesson|profile|finance)/(.*)'] = 'modules/$1/$2';
+$route['(client|timetable|lesson|profile|finance)'] = 'modules/$1';
 
 $route['default_controller'] = 'main';
 $route['404_override'] = '';
