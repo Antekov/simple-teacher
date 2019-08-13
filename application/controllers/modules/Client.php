@@ -43,7 +43,7 @@ class Client extends CI_Controller {
 		);
 
 		$this->stash['header_buttons'] = array(
-			array('name' => '<i class="fa fa-plus"></i>', 'click' => 'clients.open(0)')
+			array('name' => '<i class="fa fa-plus"></i>', 'click' => 'clients.open(0)', 'title' => 'Создать ученика')
 		);
 
 		$data = array();
