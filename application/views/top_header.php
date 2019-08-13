@@ -4,8 +4,8 @@ if (empty($header_title)) { $header_title = array(); }
 ?>
 <div class="top-header">
 	<div class="th-left">
-		<div class="th-button j-left-menu-button"><i class="fa fa-bars"></i></div>
-		<div class="th-button j-top-back-button"><i class="fa fa-angle-left"></i></div>
+		<div class="th-button j-left-menu-button" title="Главное меню"><i class="fa fa-bars"></i></div>
+		<div class="th-button j-top-back-button" title="Назад"><i class="fa fa-angle-left"></i></div>
 		<?php if (!empty($header_buttons)) { foreach ($header_buttons as $hb) { ?>
 			<div class="th-button" onclick="<?=$hb['click']?>"><?=$hb['name']?></div>
 		<?php }} ?>
@@ -33,7 +33,7 @@ if (empty($header_title)) { $header_title = array(); }
 		$('.j-search-query').focus();
 	});
 	*/
-	
+
 	$('.j-left-menu-button').click(function () {
 		var that = this;
 		var $menu = $('.j-left-menu');
