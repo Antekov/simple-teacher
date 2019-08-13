@@ -7,7 +7,7 @@ if (empty($header_title)) { $header_title = array(); }
 		<div class="th-button j-left-menu-button" title="Главное меню"><i class="fa fa-bars"></i></div>
 		<div class="th-button j-top-back-button" title="Назад"><i class="fa fa-angle-left"></i></div>
 		<?php if (!empty($header_buttons)) { foreach ($header_buttons as $hb) { ?>
-			<div class="th-button" onclick="<?=$hb['click']?>"><?=$hb['name']?></div>
+			<div class="th-button" onclick="<?=$hb['click']?>" title="<?=isset($hb['title']) ? $hb['title'] : ''?>"><?=$hb['name']?></div>
 		<?php }} ?>
 	</div>
 	<div>

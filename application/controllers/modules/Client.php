@@ -89,7 +89,7 @@ class Client extends CI_Controller {
 		);
 
 		$this->stash['header_buttons'] = array(
-			array('name' => '<i class="fa fa-save"></i>', 'click' => 'clients.save(clients.id)')
+			array('name' => '<i class="fa fa-save"></i>', 'click' => 'clients.save(clients.id)', 'title' => 'Сохранить')
 		);
 
 		$this->stash['client'] = $client;

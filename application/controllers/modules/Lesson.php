@@ -43,7 +43,7 @@ class Lesson extends CI_Controller {
 		);
 
 		$this->stash['header_buttons'] = array(
-			array('name' => '<i class="fa fa-plus"></i>', 'click' => 'lessons.open(0)')
+			array('name' => '<i class="fa fa-plus"></i>', 'click' => 'lessons.open(0)', 'title' => 'Сохранить')
 		);
 
 		$filters = (isset($this->filters['lesson'])) ? $this->filters['lesson'] : array();
