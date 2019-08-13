@@ -110,9 +110,7 @@ class Authentication extends CI_Controller {
 			catch(Exception $e) {
 				echo $e->getMessage();
 				exit();
-			}
-			print_r($user_info);
-	
+			}	
 		}
 
 	}
