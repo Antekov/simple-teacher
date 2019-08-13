@@ -10,7 +10,8 @@ define('CLIENT_ID', '232716993254-eov94nsibthjm2b7flk2bljpv2716l7p.apps.googleus
 define('CLIENT_SECRET', 'PoYvVeaWivnM1MwhA8XXfD6D');
 
 /* Google App Redirect Url */
-define('CLIENT_REDIRECT_URL', $_SERVER['HOST']'/authentication/gauth/');
+
+define('CLIENT_REDIRECT_URL', 'http://'.$_SERVER['SERVER_NAME'].'/authentication/gauth/');
 
 // $client_id, $redirect_uri & $client_secret come from the settings
 // $code is the code passed to the redirect url
