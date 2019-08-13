@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 $this->load->view('header');
+
+$login_url = 'https://accounts.google.com/o/oauth2/v2/auth?scope=' . urlencode('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email') . '&redirect_uri=' . urlencode(CLIENT_REDIRECT_URL) . '&response_type=code&client_id=' . CLIENT_ID . '&access_type=online';
 ?>
 <div class="container">
 	<div class="row">
@@ -29,6 +31,7 @@ $this->load->view('header');
 					<input class="col-md-12 btn btn-info btn-lg" type="submit" value="Войти">
 					<br>
 					<br>
+					<a href="<?= $login_url ?>">Login with Google</a>
 					<br>
 					<div class="ta-center">
 						<a href="/registration"><i class="fa fa-user-plus" aria-hidden="true"></i> Создать аккаунт</a>
