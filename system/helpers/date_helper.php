@@ -438,14 +438,15 @@ if ( ! function_exists('unix_to_human'))
 		function unix_to_human($datetime, $format = 'human') {
 			if ($datetime == '') { return ''; }
 			$stop_words = array(' ', '.', ',', '/', ':', '-', 'c', 'в');
-			$word = '';
-			$delimiter = '';
+			$word = [];
+			$delimiter = [];
 			$dt = explode(' ', $datetime);
 			$date_fmt = '';
 			if( strpos($dt[0], '-') != FALSE ){
 				list($Y, $m, $d) = explode('-', $dt[0]);
 			}else{
 				list($d, $m, $Y) = explode('.', $dt[0]);
+				
 			}
 			if (isset($dt[1])) {
 				$_time = explode(':', $dt[1]);
@@ -461,6 +462,7 @@ if ( ! function_exists('unix_to_human'))
 			// Готовим формат
 			//preg_match_all("/([a-zA-Z0-9.,\/\s]{1,30})/", $format, $fmt, PREG_PATTERN_ORDER);
 			$fmt = str_split($format);
+			
 			$c = 0;
 			foreach ($fmt as $l) {
 				if (in_array($l, $stop_words)) {
@@ -474,12 +476,12 @@ if ( ! function_exists('unix_to_human'))
 					}
 				}
 			}
-			#print_r($word);
+			
 			for ($n = 0; $n <= $c; $n++) {
 				if (isset($delimiter[$n])) {
 					$date_fmt .= $delimiter[$n];
 				}
-
+				
 				if (isset($word[$n])) {
 					switch($word[$n]) {
 						case 'w' :

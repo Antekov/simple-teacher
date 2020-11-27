@@ -130,7 +130,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if (empty($this->_db->conn_id) && ! $this->_db->db_connect())
 		{
+<<<<<<< HEAD
 			return $this->_failure;
+=======
+			return $this->_fail();
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 		}
 
 		$this->php5_validate_id();
@@ -152,8 +156,16 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	{
 		if ($this->_get_lock($session_id) === FALSE)
 		{
+<<<<<<< HEAD
 			return $this->_failure;
 		}
+=======
+			// Prevent previous QB calls from messing with our queries
+			$this->_db->reset_query();
+
+			// Needed by write() to detect session_regenerate_id() calls
+			$this->_session_id = $session_id;
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 
 		// Prevent previous QB calls from messing with our queries
 		$this->_db->reset_query();
@@ -161,10 +173,22 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		// Needed by write() to detect session_regenerate_id() calls
 		$this->_session_id = $session_id;
 
+<<<<<<< HEAD
 		$this->_db
 			->select('data')
 			->from($this->_config['save_path'])
 			->where('id', $session_id);
+=======
+			if ( ! ($result = $this->_db->get()) OR ($result = $result->row()) === NULL)
+			{
+				// PHP7 will reuse the same SessionHandler object after
+				// ID regeneration, so we need to explicitly set this to
+				// FALSE instead of relying on the default ...
+				$this->_row_exists = FALSE;
+				$this->_fingerprint = md5('');
+				return '';
+			}
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 
 		if ($this->_config['match_ip'])
 		{
@@ -214,7 +238,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		{
 			if ( ! $this->_release_lock() OR ! $this->_get_lock($session_id))
 			{
+<<<<<<< HEAD
 				return $this->_failure;
+=======
+				return $this->_fail();
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 			}
 
 			$this->_row_exists = FALSE;
@@ -222,7 +250,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 		}
 		elseif ($this->_lock === FALSE)
 		{
+<<<<<<< HEAD
 			return $this->_failure;
+=======
+			return $this->_fail();
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 		}
 
 		if ($this->_row_exists === FALSE)
@@ -241,7 +273,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 				return $this->_success;
 			}
 
+<<<<<<< HEAD
 			return $this->_failure;
+=======
+			return $this->_fail();
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 		}
 
 		$this->_db->where('id', $session_id);
@@ -264,7 +300,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			return $this->_success;
 		}
 
+<<<<<<< HEAD
 		return $this->_failure;
+=======
+		return $this->_fail();
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 	}
 
 	// ------------------------------------------------------------------------
@@ -279,7 +319,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 	public function close()
 	{
 		return ($this->_lock && ! $this->_release_lock())
+<<<<<<< HEAD
 			? $this->_failure
+=======
+			? $this->_fail()
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 			: $this->_success;
 	}
 
@@ -308,7 +352,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 			if ( ! $this->_db->delete($this->_config['save_path']))
 			{
+<<<<<<< HEAD
 				return $this->_failure;
+=======
+				return $this->_fail();
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 			}
 		}
 
@@ -318,7 +366,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 			return $this->_success;
 		}
 
+<<<<<<< HEAD
 		return $this->_failure;
+=======
+		return $this->_fail();
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 	}
 
 	// ------------------------------------------------------------------------
@@ -338,7 +390,11 @@ class CI_Session_database_driver extends CI_Session_driver implements SessionHan
 
 		return ($this->_db->delete($this->_config['save_path'], 'timestamp < '.(time() - $maxlifetime)))
 			? $this->_success
+<<<<<<< HEAD
 			: $this->_failure;
+=======
+			: $this->_fail();
+>>>>>>> 3e7d55ede2c9463bb27fcfa45104847fdebf6b20
 	}
 
 	// --------------------------------------------------------------------

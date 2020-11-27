@@ -151,6 +151,71 @@ class CI_Cache_redis extends CI_Driver
 	// ------------------------------------------------------------------------
 
 	/**
+	 * Class constructor
+	 *
+	 * Setup Redis
+	 *
+	 * Loads Redis config file if present. Will halt execution
+	 * if a Redis connection can't be established.
+	 *
+	 * @return	void
+	 * @see		Redis::connect()
+	 */
+	public function __construct()
+	{
+		if ( ! $this->is_supported())
+		{
+			log_message('error', 'Cache: Failed to create Redis object; extension not loaded?');
+			return;
+		}
+
+		$CI =& get_instance();
+
+		if ($CI->config->load('redis', TRUE, TRUE))
+		{
+			$config = array_merge(self::$_default_config, $CI->config->item('redis'));
+		}
+		else
+		{
+			$config = self::$_default_config;
+		}
+
+		$this->_redis = new Redis();
+
+		try
+		{
+			if ($config['socket_type'] === 'unix')
+			{
+				$success = $this->_redis->connect($config['socket']);
+			}
+			else // tcp socket
+			{
+				$success = $this->_redis->connect($config['host'], $config['port'], $config['timeout']);
+			}
+
+			if ( ! $success)
+			{
+				log_message('error', 'Cache: Redis connection failed. Check your configuration.');
+			}
+
+			if (isset($config['password']) && ! $this->_redis->auth($config['password']))
+			{
+				log_message('error', 'Cache: Redis authentication failed.');
+			}
+		}
+		catch (RedisException $e)
+		{
+			log_message('error', 'Cache: Redis connection refused ('.$e->getMessage().')');
+		}
+
+		// Initialize the index of serialized values.
+		$serialized = $this->_redis->sMembers('_ci_redis_serialized');
+		empty($serialized) OR $this->_serialized = array_flip($serialized);
+	}
+
+	// ------------------------------------------------------------------------
+
+	/**
 	 * Get cache
 	 *
 	 * @param	string	$key	Cache ID
