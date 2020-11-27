@@ -1,4 +1,4 @@
-<?
+<?php
 $config['phone_codes'] = array(
 '380'=>array(
         'name'=>'Ukraine',

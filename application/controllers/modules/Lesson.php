@@ -43,7 +43,7 @@ class Lesson extends CI_Controller {
 		);
 
 		$this->stash['header_buttons'] = array(
-			array('name' => '<i class="fa fa-plus"></i>', 'click' => 'lessons.open(0)')
+			array('name' => '<i class="fa fa-plus"></i>', 'click' => 'lessons.open(0)', 'title' => 'Создать занятие')
 		);
 
 		$filters = (isset($this->filters['lesson'])) ? $this->filters['lesson'] : array();
@@ -92,7 +92,7 @@ class Lesson extends CI_Controller {
 		);
 
 		$this->stash['header_buttons'] = array(
-			array('name' => '<i class="fa fa-save"></i>', 'click' => 'lessons.save(lessons.id)')
+			array('name' => '<i class="fa fa-save"></i>', 'click' => 'lessons.save(lessons.id)', 'title' => 'Сохранить занятие')
 		);
 
 

@@ -18,6 +18,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.css"/>
 	<link rel="stylesheet" type="text/css" href="/css/main.css"/>
 
-	<? foreach ((array) $js as $js_file) { ?><script type="text/javascript" src="/js/<?=$js_file?>"></script><? } ?>
+	<?php foreach ((array) $js as $js_file) { ?><script type="text/javascript" src="/js/<?=$js_file?>"></script><?php } ?>
 </head>
 <body>

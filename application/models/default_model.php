@@ -1,4 +1,4 @@
-<?
+<?php
 class default_model extends CI_Model {
     private $ci;
 	function __construct(){

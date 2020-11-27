@@ -34,9 +34,9 @@
 	display: -ms-flexbox;
 	display: flex;
 	-webkit-box-pack: justify;
-	-webkit-justify-content: space-between;
+	-webkit-justify-content: left;
 	-ms-flex-pack: justify;
-	justify-content: space-between;
+	justify-content: left;
 	border-bottom: 1px solid #DDD;
 	background: #F3F3F3;
 	line-height: 1em;
@@ -73,10 +73,18 @@
 .th-title {
 	display: inline-block;
 	font-size: 1.5em;
-	padding: 0.5em 0 0.5em 0.25em ;
+	padding: 0.5em 0.5em 0.5em 0.5em ;
 	text-align: center;
 	position: relative;
 	line-height: 1em;
+	border-left: 1px solid #DDD;
+	color: #58584f;
+}
+
+@media (max-width: 768px) {
+	.th-title {
+		display: none;
+	}
 }
 
 .search-form {
@@ -493,7 +501,6 @@
 .lesson .status-0 .status-title { color: #A0A0A0; }
 .lesson .status-0 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -512,7 +519,6 @@
 .lesson .status-1 .status-title { }
 .lesson .status-1 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -531,7 +537,6 @@
 .lesson .status-1.late .status-title { color: #FD5F5F; }
 .lesson .status-1.late .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -550,7 +555,6 @@
 .lesson .status-3 .status-title { color: #287100; }
 .lesson .status-3 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -568,7 +572,6 @@
 .lesson .status-2 .status-title { color: #777777; }
 .lesson .status-2 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -586,7 +589,6 @@
 .lesson .status-4 .status-title { color: #A0A0A0; }
 .lesson .status-4 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -605,7 +607,6 @@
 .lesson .status-5 .status-title { color: #A0A0A0; }
 .lesson .status-5 .status-title:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -627,7 +628,6 @@
 .cd-status-0 { color: #A0A0A0; }
 .cd-status-0:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -646,7 +646,6 @@
 .cd-status-3 { }
 .cd-status-3:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -665,7 +664,6 @@
 .cd-status-4 { color: #FD5F5F; }
 .cd-status-4:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -684,7 +682,6 @@
 .cd-status-1 { color: #287100; }
 .cd-status-1:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -702,7 +699,6 @@
 .cd-status-2 { color: #777777; }
 .cd-status-2:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -720,7 +716,6 @@
 .cd-status-2 { color: #A0A0A0; }
 .cd-status-2:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -740,7 +735,6 @@
 .ld-status-0 { color: #A0A0A0; }
 .ld-status-0:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -761,7 +755,6 @@
 .ld-status-2 { }
 .ld-status-2:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -782,7 +775,6 @@
 .ld-status-3 { color: #FD5F5F; }
 .ld-status-3:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -801,7 +793,6 @@
 .ld-status-1 { color: #287100; }
 .ld-status-1:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -820,7 +811,6 @@
 .ld-status-5 { color: #A0A0A0; }
 .ld-status-5:before {
 	display: inline-block;
-	float: left;
 	box-sizing: border-box;
 	padding: 0;
 	text-align: center;
@@ -886,7 +876,7 @@
 	padding: 0.2em;
 	background: #effff2;
 	border: 1px solid #caf1ca;
-	text-wrap: none;
+	word-wrap: none;
 	display: flex;
 	max-width: 5em;
 	flex-direction: column;
@@ -924,8 +914,6 @@
 	font-size: 0.833333em;
 	color: #777;
 }
-
-.table-clients {}
 
 .table-clients {
 	width: 100%;
@@ -985,6 +973,12 @@
 	font-size: 0.83333em;
 	text-wrap: none;
 	white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+	.ct-cost, .ct-description {
+		display: none
+	}
 }
 
 .ctc-cost {
@@ -1173,7 +1167,7 @@
 	padding: 0.2em;
 	background: #effff2;
 	border: 1px solid #caf1ca;
-	text-wrap: none;
+	word-wrap: none;
 	display: flex;
 	max-width: 5em;
 	flex-direction: column;
@@ -1285,4 +1279,15 @@
 	height: 1.5em;
 	border-bottom: 1px solid #EEE;
 
+}
+
+.ta-center {
+	text-align: center;
+}
+
+@media (min-width: 0px) {
+	.navbar-nav {
+		float: left;
+		margin: 0;
+	}
 }

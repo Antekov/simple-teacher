@@ -4,10 +4,9 @@ $this->load->view('header', $this->stash);
 $this->load->view('left_menu', $this->stash); ?>
 	<div class="body-container">
 		<div class="content j-content">
-			<? $this->load->view('top_header', $this->stash); ?>
+			<?php $this->load->view('top_header', $this->stash); ?>
 
-
-			<? $this->load->view('modules/lesson/list', $this->stash); ?>
+			<?php $this->load->view('modules/lesson/list', $this->stash); ?>
 
 			<!-- Modal -->
 			<div class="modal fade" id="lessonEditModal" tabindex="-1" role="dialog" aria-labelledby="lessonEditModalLabel"
@@ -29,5 +28,5 @@ $this->load->view('left_menu', $this->stash); ?>
 			</div>
 		</div>
 	</div>
-<?
+<?php
 $this->load->view('footer', $this->stash);

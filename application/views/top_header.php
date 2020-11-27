@@ -4,19 +4,19 @@ if (empty($header_title)) { $header_title = array(); }
 ?>
 <div class="top-header">
 	<div class="th-left">
-		<div class="th-button j-left-menu-button"><i class="fa fa-bars"></i></div>
-		<div class="th-button j-top-back-button"><i class="fa fa-angle-left"></i></div>
-		<? if (!empty($header_buttons)) { foreach ($header_buttons as $hb) { ?>
-			<div class="th-button" onclick="<?=$hb['click']?>"><?=$hb['name']?></div>
-		<? }} ?>
+		<div class="th-button j-left-menu-button" title="Главное меню"><i class="fa fa-bars"></i></div>
+		<div class="th-button j-top-back-button" title="Назад"><i class="fa fa-angle-left"></i></div>
+		<?php if (!empty($header_buttons)) { foreach ($header_buttons as $hb) { ?>
+			<div class="th-button" onclick="<?=$hb['click']?>" title="<?=isset($hb['title']) ? $hb['title'] : ''?>"><?=$hb['name']?></div>
+		<?php }} ?>
 	</div>
 	<div>
-		<? foreach ($header_title as $ht) { ?>
+		<?php foreach ($header_title as $ht) { ?>
 		<div class="th-title"><?=$ht['name']?></div>
-		<? } ?>
+		<?php } ?>
 	</div>
 	<div class="th-right">
-		<div class="th-button j-top-search-button"><i class="fa fa-search"></i></div>
+		<!-- <div class="th-button j-top-search-button"><i class="fa fa-search"></i></div> -->
 	</div>
 </div>
 
@@ -25,12 +25,14 @@ if (empty($header_title)) { $header_title = array(); }
 		history.back();
 	});
 
+	/*
 	$('.j-top-search-button').click(function () {
 		if (!$('.j-top-menu').is(':visible')) {
 			$('.j-top-menu-button').click();
 		}
 		$('.j-search-query').focus();
 	});
+	*/
 
 	$('.j-left-menu-button').click(function () {
 		var that = this;

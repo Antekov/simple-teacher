@@ -1,5 +1,5 @@
 <div class="week">
-<? for ($day = 0; $day < 7; $day++) {
+<?php for ($day = 0; $day < 7; $day++) {
 	$current_time = strtotime($data['date_from'])+$day*24*3600;
 	$current_date = date('Y-m-d', $current_time);
 ?>
@@ -8,16 +8,16 @@
 			<span class="wdt-weekday"><?=unix_to_human($current_date, 'W')?></span>
 			<span class="wdt-date"><?=unix_to_human($current_date, 'd.m')?></span>
 		</div>
-	<? for ($hour = 0; $hour < 24; $hour++) { ?>
+	<?php for ($hour = 0; $hour < 24; $hour++) { ?>
 		<div class="wd-hour" data-hour="<?=$hour?>" data-date="<?=$current_date?>">
 			<div class="wdh-half"></div>
 			<div class="wdh-half"></div>
 		</div>
-	<? } ?>
+	<?php } ?>
 	</div>
-<? } ?>
+<?php } ?>
 	<div class="timetable-lesson-items">
-		<? foreach ($lessons as $lesson) { ?>
+		<?php foreach ($lessons as $lesson) { ?>
 			<div class="tli-item" role="lesson" data-date="<?=date('Y-m-d', strtotime($lesson['start_date']))?>" data-weekday="<?=date('w', strtotime($lesson['start_date']))?>" data-hour="<?=date('H', strtotime($lesson['start_date']))?>" data-minute="<?=date('i', strtotime($lesson['start_date']))?>"
 				 data-duration="<?=$lesson['duration']?>" data-id="<?=$lesson['id']?>">
 				<div class="tlii-status">
@@ -33,33 +33,33 @@
 					</div>
 				</div>
 				<div class="tlii-toolbar">
-				<? if ($lesson['status'] == lesson_model::S_DRAFT) { ?>
+				<?php if ($lesson['status'] == lesson_model::S_DRAFT) { ?>
 					<button class="btn btn-success btn-block" onclick="lessons.status(<?=lesson_model::S_ACTIVE?>)"><i class="fa fa-play"></i> Назначить</button>
 					<button class="btn btn-warning btn-block" onclick="lessons.status(<?=lesson_model::S_PAID?>)"><i class="fa fa-money"></i> Оплачено</button>
 					<button class="btn btn-deafult btn-block" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/<?=$lesson['id']?>/<?=$lesson['client_id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })"><i class="fa fa-edit"></i> Правка</button>
-				<? } ?>
-				<? if ($lesson['status'] == lesson_model::S_ACTIVE || $lesson['status'] == lesson_model::S_PAID) { ?>
-					<? if ($lesson['start_date'] < date('Y-m-d H:i:s')) { ?>
+				<?php } ?>
+				<?php if ($lesson['status'] == lesson_model::S_ACTIVE || $lesson['status'] == lesson_model::S_PAID) { ?>
+					<?php if ($lesson['start_date'] < date('Y-m-d H:i:s')) { ?>
 					<button class="btn btn-success btn-block" onclick="lessons.status(<?=lesson_model::S_COMPLETE?>)"><i class="fa fa-check"></i> Проведено</button>
-					<? } ?>
-					<? if ($lesson['status'] == lesson_model::S_ACTIVE) { ?>
+					<?php } ?>
+					<?php if ($lesson['status'] == lesson_model::S_ACTIVE) { ?>
 						<button class="btn btn-warning btn-block" onclick="lessons.status(<?=lesson_model::S_PAID?>)"><i class="fa fa-money"></i> Оплачено</button>
-					<? } ?>
+					<?php } ?>
 					<button class="btn btn-dismiss btn-block" onclick="lessons.status(<?=lesson_model::S_CANCELED?>)"><i class="fa fa-times"></i> Отменить</button>
 					<button class="btn btn-deafult btn-block" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/<?=$lesson['id']?>/<?=$lesson['client_id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })"><i class="fa fa-edit"></i> Правка</button>
-				<? } ?>
-					<? if ($lesson['status'] == lesson_model::S_CANCELED) { ?>
+				<?php } ?>
+					<?php if ($lesson['status'] == lesson_model::S_CANCELED) { ?>
 						<button class="btn btn-success btn-block" onclick="lessons.status(<?=lesson_model::S_ACTIVE?>)"><i class="fa fa-play"></i> Назначить</button>
-					<? } ?>
+					<?php } ?>
 
 
 					<button class="btn btn-deafult btn-block" onclick="clients.open(<?=$lesson['client_id']?>)"><i class="fa fa-user"></i> Ученик</button>
 				</div>
 			</div>
-		<? } ?>
+		<?php } ?>
 	</div>
 	<div class="timetable-busy-time-items">
-		<?
+		<?php
 		
 		if (!empty($this->auth->user['data']['busy_time'])) {
 		$busy_time = $this->auth->user['data']['busy_time'];
@@ -81,7 +81,7 @@
 					</div>
 				</div>
 			</div>
-		<? } }?>
+		<?php } }?>
 	</div>
 </div>
 <script>
