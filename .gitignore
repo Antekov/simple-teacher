@@ -1,4 +1,5 @@
 application/sessions/*
+*.local.*
 .idea/
 /application/config/database.local.php
 /.vscode/
