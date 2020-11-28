@@ -165,6 +165,7 @@ class Lesson_model extends CI_Model
 		
 		if (empty($data['id'])) {
 			$data['user_id'] = $this->auth->user['id'];
+			$data['id'] = NULL;
 			$this->db->insert(T_LESSONS, $data);
 			$data['id'] = $this->db->insert_id();
 		} else {

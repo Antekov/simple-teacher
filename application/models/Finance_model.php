@@ -145,6 +145,7 @@ class Finance_model extends CI_Model
 		$data['user_id'] = $this->auth->user['id'];
 
 		if (empty($data['id'])) {
+			$data['id'] = NULL;
 			$this->db->insert(T_FINANCES, $data);
 			$data['id'] = $this->db->insert_id();
 		} else {

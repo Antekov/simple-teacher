@@ -366,6 +366,7 @@ class User_model extends CI_Model
 		}
 
 		if ($data['id'] == 0) {
+			$data['id'] = NULL;
 			$this->db->insert(T_USERS, $data);
 			$data['id'] = $this->db->insert_id();
 		} else {

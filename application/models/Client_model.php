@@ -322,6 +322,7 @@ class Client_model extends CI_Model
 
 		if ($data['id'] == 0) {
 			$data['user_id'] = $this->auth->user['id'];
+			$data['id'] = NULL;
 			$this->db->insert(T_CLIENTS, $data);
 			$data['id'] = $this->db->insert_id();
 			$this->set_status($data, client_model::S_ACTIVE);
