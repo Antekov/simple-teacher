@@ -5,8 +5,8 @@
 ?>
 	<div class="w-day" data-date="<?=date('Y-m-d', $current_time)?>" data-weekday="<?=((date('w', $current_time))%7)?>">
 		<div class="wd-title">
-			<span class="wdt-weekday"><?=unix_to_human($current_date, 'W')?></span>
-			<span class="wdt-date"><?=unix_to_human($current_date, 'd.m')?></span>
+			<span class="wdt-weekday"><?=timestamp_to_human($current_date, 'W')?></span>
+			<span class="wdt-date"><?=timestamp_to_human($current_date, 'd.m')?></span>
 		</div>
 	<?php for ($hour = 0; $hour < 24; $hour++) { ?>
 		<div class="wd-hour" data-hour="<?=$hour?>" data-date="<?=$current_date?>">
@@ -25,7 +25,7 @@
 				</div>
 				<div class="tlii-data">
 					<div class="tliid-time" >
-						<span class="ld-time-hour"><?=unix_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=unix_to_human($lesson['start_date'], 'i')?></span>
+						<span class="ld-time-hour"><?=timestamp_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=timestamp_to_human($lesson['start_date'], 'i')?></span>
 					</div>
 					<div class="tliid-client" title="<?=$lesson['client_description']?>">
 						<span class="cd-name" ><span class="cd-place cd-place-<?=$lesson['place']?>"></span> <?=$lesson['name']?></span>
@@ -73,7 +73,7 @@
 				 data-duration="<?=$lesson['duration']?>" data-id="-1">
 				<div class="tlii-data">
 					<div class="tliid-time">
-						<span class="ld-time-hour"><?=unix_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=unix_to_human($lesson['start_date'], 'i')?></span>
+						<span class="ld-time-hour"><?=timestamp_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=timestamp_to_human($lesson['start_date'], 'i')?></span>
 					</div>
 					<div class="tliid-client">
 						<span class="cd-name"><?=$lesson['name']?></span>

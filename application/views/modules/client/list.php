@@ -15,7 +15,7 @@
         </td>
         <td class="" onclick="clients.open('<?=$client['id']?>')">
             <a href="./edit/<?=$client['id']?>"><span class="cd-name"><?=$client['name']?></span></a><br>
-            <span class="cd-short-date"><?=unix_to_human($client['create_date'], 'd mnth %Y')?></span>
+            <span class="cd-short-date"><?=timestamp_to_human($client['create_date'], 'd mnth %Y')?></span>
 
         </td>
 
