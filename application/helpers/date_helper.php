@@ -146,7 +146,7 @@ if ( ! function_exists('timestamp_to_human'))
 							}
 							$format = ($Y == date('Y')) ? 'week, d months' : 'week, d months Y';
 							$date_fmt .= ($date_fmt != '') ? ', ' : '';
-							$date_fmt .= $this->unix_to_human($datetime, $format);
+							$date_fmt .= $this->timestamp_to_human($datetime, $format);
 							break;
 					}
 				}
