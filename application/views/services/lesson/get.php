@@ -9,9 +9,9 @@
 			<span class="wdt-date"><?=timestamp_to_human($current_date, 'd.m')?></span>
 		</div>
 	<?php for ($hour = 0; $hour < 24; $hour++) { ?>
-		<div class="wd-hour" data-hour="<?=$hour?>" data-date="<?=$current_date?>">
-			<div class="wdh-half"></div>
-			<div class="wdh-half"></div>
+		<div class="wd-hour" data-hour="<?=$hour?>">
+			<div class="wdh-half" data-hour="<?=$hour?>" data-minute="00" data-date="<?=$current_date?>"></div>
+			<div class="wdh-half" data-hour="<?=$hour?>" data-minute="30" data-date="<?=$current_date?>"></div>
 		</div>
 	<?php } ?>
 	</div>
@@ -200,14 +200,16 @@
 		setElement(el);
 	});
 
-	$('.w-day .wd-hour').droppable({
+	$('.w-day .wdh-half').droppable({
 		accept: '[role="lesson"]',
 		over: function(event, ui) {
 			//console.log(event);
 			//$(event.target).css({border: '3px solid #000'});
 			var hour = $(event.target).data('hour');
+			var minute = $(event.target).data('minute');
 
 			ui.draggable.find('.ld-time-hour').html(hour);
+			ui.draggable.find('.ld-time-minute').html(minute);
 			//ui.draggable.find('.ld-time-minute').html($(event.target).offset().top - ui.draggable.offset().top);
 			//ui.draggable.$(event.target).data('', )
 			//hideHours(Math.min(hour-2, minHour), Math.max(hour+2,maxHour));
@@ -219,16 +221,17 @@
 
 			var data = ui.draggable.data();
 			var hour = $(event.target).data('hour');
+			var minute = $(event.target).data('minute');
 			var ui = ui;
 			$.post('/services/lesson/set/',
-				{id: data.id, start_date: $(event.target).data('date')+ ' ' + hour + ':00:00'},
+				{id: data.id, start_date: $(event.target).data('date')+ ' ' + hour + ':' + minute + ':00'},
 				function(data) {
 					if (data.status != 1) {
 						alert('Error');
 
 
 					} else {
-						ui.draggable.data({'date': $(event.target).data('date'), 'hour': hour, minute: '00'});
+						ui.draggable.data({'date': $(event.target).data('date'), 'hour': hour, minute: minute});
 					}
 					setElement(ui.draggable[0]);
 				}
