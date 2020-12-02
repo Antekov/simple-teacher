@@ -227,7 +227,7 @@
 	border-bottom: 1px solid #C8E9FD;
 }
 
-.section-menu {}
+.section-menu { color: inherit; }
 
 .sm-item1 {
 	display: -webkit-box;
@@ -351,7 +351,7 @@
 	background: #5BB3E8;
 }
 
-.list-table {}
+.list-table { color: inherit; }
 
 .list-table tr th {
 	font-size:1.2em;
@@ -379,9 +379,7 @@
 	background-color: #FAFAFA;
 }
 
-.list-table tr td {
-	/*cursor:pointer;*/
-}
+.list-table tr td { color: inherit; }
 .list-table tr td h2 {
 	margin-top:0px;
 	color:#3bad56;
@@ -516,7 +514,7 @@
 	content: '';
 }
 
-.lesson .status-1 .status-title { }
+.lesson .status-1 .status-title { color: inherit; }
 .lesson .status-1 .status-title:before {
 	display: inline-block;
 	box-sizing: border-box;
@@ -622,8 +620,9 @@
 	content: '';
 }
 
-.client-data {}
-.lesson-data {}
+.client-data { color: inherit; }
+
+.lesson-data { color: inherit; }
 
 .cd-status-0 { color: #A0A0A0; }
 .cd-status-0:before {
@@ -643,7 +642,8 @@
 	content: '';
 }
 
-.cd-status-3 { }
+.cd-status-3 { color: inherit; }
+
 .cd-status-3:before {
 	display: inline-block;
 	box-sizing: border-box;
@@ -752,7 +752,7 @@
 	content: '';
 }
 
-.ld-status-2 { }
+.ld-status-2 { color: inherit; }
 .ld-status-2:before {
 	display: inline-block;
 	box-sizing: border-box;
@@ -923,9 +923,9 @@
 	font-size: 1.2em;
 }
 
-
-
-.client-title {}
+.client-title {
+	color: inherit;
+}
 
 .ct-place i.fa.fa-skype {
 	color: #20bfff;
@@ -965,13 +965,13 @@
 }
 
 .ct-cost {
-	display: inline-block;
+	/* display: inline-block; */
 	float: right;
 	padding: 0.2em;
 	background: #effff2;
 	border: 1px solid #caf1ca;
 	font-size: 0.83333em;
-	text-wrap: none;
+	word-wrap: none;
 	white-space: nowrap;
 }
 
@@ -993,7 +993,7 @@
 	color: cadetblue;
 }
 
-.client-form {}
+.client-form { color: inherit; }
 
 .cf-tab-content {
 	padding: 1em;
@@ -1001,7 +1001,7 @@
 	border-top: 0 none;
 }
 
-.lesson-table {}
+.lesson-table { color: inherit; }
 
 .ld-date {
 	color: #0066cc;
@@ -1051,6 +1051,7 @@
 }
 
 .timetable-lesson-items {
+	color: inherit; 
 	/* display: flex; */
 	/* justify-content: flex-start; */
 	/* flex-wrap: wrap; */
@@ -1138,6 +1139,7 @@
 }
 
 .timetable-busy-time-items {
+	color: inherit; 
 	/* display: flex; */
 	/* justify-content: flex-start; */
 	/* flex-wrap: wrap; */
