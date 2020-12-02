@@ -28,7 +28,7 @@
 						<span class="ld-time-hour"><?=timestamp_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=timestamp_to_human($lesson['start_date'], 'i')?></span>
 					</div>
 					<div class="tliid-client" title="<?=$lesson['client_description']?>">
-						<span class="cd-name" ><span class="cd-place cd-place-<?=$lesson['place']?>"></span> <?=$lesson['name']?></span>
+						<span class="cd-name" ><span class="cd-place cd-place-<?=$lesson['place']?>"></span><?=$lesson['name']?></span>
 						<br><span class="ldc-duration"><span class="j-duration"><?=($lesson['duration'])?></span> <span class="ld-currency">мин.</span></span>
 					</div>
 				</div>

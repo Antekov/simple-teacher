@@ -69,9 +69,23 @@ var clients = new function() {
 			});
 		}
 	};
+
+	this.setStatus = function(status) {
+		if (this.id > 0) {
+			$('#client_form > input[name="status"]').val(status);
+			this.save(true);
+		}
+	};
+
+	this.setPlace = function(place) {
+		if (this.id > 0) {
+			$('#client_form > input[name="place"]').val(place);
+			this.save(true);
+		}
+	};
 	
-	this.save = function(d) {
-		var d = d || {}
+	this.save = function(reopen) {
+		var reopen = reopen !== undefined ? reopen : false;
 		
 		if ($('input[name="title"]').val() == '') {
 			return g.alert('Введите название задачи');
@@ -88,8 +102,11 @@ var clients = new function() {
 			success: function(data) {
 				if (data.status == 1) {
 					
-					//projects.init();
-					clients.close(data.id);
+					if (!reopen) {
+						clients.close(data.id);
+					} else {
+						clients.open(data.id);
+					}
 				}
 				
 			},

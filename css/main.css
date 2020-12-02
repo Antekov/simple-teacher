@@ -640,6 +640,7 @@
 	background: #FEFEFE;
 	color: #FFF;
 	content: '';
+	vertical-align: text-top;
 }
 
 .cd-status-3 { color: inherit; }
@@ -659,6 +660,7 @@
 	background: #63CCFD;
 	color: #FFF;
 	content: '';
+	vertical-align: text-top;
 }
 
 .cd-status-4 { color: #FD5F5F; }
@@ -677,6 +679,7 @@
 	background: #FFAACC;
 	color: #FFF;
 	content: '';
+	vertical-align: text-top;
 }
 
 .cd-status-1 { color: #287100; }
@@ -695,6 +698,7 @@
 	background: #B8E356;
 	color: #FFF;
 	content: '';
+	vertical-align: text-top;
 }
 .cd-status-2 { color: #777777; }
 .cd-status-2:before {
@@ -712,6 +716,7 @@
 	background: #D5D5D5;
 	color: #FFF;
 	content: '';
+	vertical-align: text-top;
 }
 .cd-status-2 { color: #A0A0A0; }
 .cd-status-2:before {
@@ -729,6 +734,7 @@
 	background: #E9D77C;
 	color: #FFF;
 	content: '';
+	vertical-align: text-top;
 }
 
 
@@ -833,29 +839,59 @@
 }
 
 .cd-place {
-	display: inline-block;
-	font: normal normal normal 14px/1 FontAwesome;
 	font-size: inherit;
 	text-rendering: auto;
 	-webkit-font-smoothing: antialiased;
 }
 
 .cd-place-0:before {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0;
+	text-align: center;
+	width: 1.4em;
+	height: 1.4em;
+	margin: 0 0.3em 0 0;
+	font-family: FontAwesome;
 	content:'\f17e';
 	color: #20bfff;
 }
 
 .cd-place-1:before {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0;
+	text-align: center;
+	width: 1.4em;
+	height: 1.4em;
+	margin: 0 0.3em 0 0;
+	font-family: FontAwesome;
 	content:'\f007';
 	color: #75ccb0;
 }
 
 .cd-place-2:before {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0;
+	text-align: center;
+	width: 1.4em;
+	height: 1.4em;
+	margin: 0 0.3em 0 0;
+	font-family: FontAwesome;
 	content:'\f015';
 	color: #e26e34;
 }
 
 .cd-place-3:before {
+	display: inline-block;
+	box-sizing: border-box;
+	padding: 0;
+	text-align: center;
+	width: 1.4em;
+	height: 1.4em;
+	margin: 0 0.3em 0 0;
+	font-family: FontAwesome;
 	content:'\f1ad';
 	color: #3f7b2d;
 }
@@ -999,6 +1035,24 @@
 	padding: 1em;
 	border: 1px solid #E5E5E5;
 	border-top: 0 none;
+}
+
+.cf-row {
+	padding: 0.5em 0 1.5em;
+}
+
+.cf-row:first-child {
+	padding-top: 0;
+}
+
+.cf-row-cost {
+	background-color: #effff2;
+	border-bottom: 1px solid #d1eed6
+}
+
+.cf-row-contacts {
+	background-color: #fffef5;
+	border-bottom: 1px solid #f0edd4
 }
 
 .lesson-table { color: inherit; }
@@ -1294,4 +1348,9 @@
 		float: left;
 		margin: 0;
 	}
+}
+
+
+.input-group-addon {
+	min-width: 3em;
 }
