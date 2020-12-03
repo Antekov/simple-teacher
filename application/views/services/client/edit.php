@@ -11,17 +11,62 @@
 	<div class="tab-content cf-tab-content">
 		<div class="tab-pane active" id="info">
 			<div class="row cf-row">
-				<div class="col-md-5">
+				<div class="col-md-6">
 					<div class="field-title">Имя</div>
 					<div class="input-group input-group-lg">
-						<span class="input-group-addon" id="basic-addon-name"><i class="fa fa-user"></i></span>
+						<!-- <span class="input-group-addon" id="basic-addon-name"><i class="fa fa-user"></i></span> -->
 						<input type="text" class="form-control" name="name" value="<?=$client['name']?>" placeholder="Имя" aria-describedby="basic-addon-name">
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"  tabindex="-1">
+								<span class="client-status cd-place cd-place-<?=$client['place']?>"><?=client_model::$places[$client['place']]?></span></button>
+							<ul class="dropdown-menu" role="menu">
+								<?php foreach(client_model::$places as $place => $place_name) { 
+									?>
+								<li>
+									<a herf="#" onclick="clients.setPlace(<?=$place?>);" data-value="<?=$place?>">
+										<span class="cd-place cd-place-<?=$place?>" title="<?=$place_name?>"><?=$place_name?></span>
+									</a>
+								</li>
+								<?php } ?>
+							</ul>
+						</div>
 					</div>
 				</div>
-				<div class="col-md-7">
+				<div class="col-md-3">
+					<div class="field-title">Ставка</div>
+					<div class="input-group input-group-lg">
+						
+						
+						<input type="number" class="form-control" name="data[cost]" value="<?=$client['data']['cost']?>" placeholder="Ставка" aria-describedby="basic-addon-skype">
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"  tabindex="-1"> <span class="client-data-duration"><?=$client['data']['duration']?></span> мин. </button>
+							
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li><a href="#" onclick="$('.client-data-duration').html($(this).data('value')); $('input.data-duration').val($(this).data('value'));" data-value="60">60 мин.</a></li>
+								<li><a href="#" onclick="$('.client-data-duration').html($(this).data('value')); $('input.data-duration').val($(this).data('value'));" data-value="90">90 мин.</a></li>
+								<li><a href="#" onclick="$('.client-data-duration').html($(this).data('value')); $('input.data-duration').val($(this).data('value'));" data-value="120">120 мин.</a></li>
+								<li><a href="#" onclick="$('.client-data-duration').html($(this).data('value')); $('input.data-duration').val($(this).data('value'));" data-value="180">180 мин.</a></li>
+							</ul>
+							
+						</div>
+							
+					</div>
+					
+				</div>
+				<div class="col-md-3">
+					<div class="field-title">Номер заказа</div>
+					<div class="input-group input-group-lg">
+						<input type="text" class="form-control" name="external_id" value="<?=$client['external_id']?>" placeholder="Номер на ВР">
+						<div class="input-group-btn">
+						<button type="button" class="btn btn-default" tabindex="-1"><a href="http://stavropol.repetitors.info/backoffice/p.php?o=<?=$client['external_id']?>" target="_blank">Открыть</a></button>
+							</div>
+					</div>
+				</div>
+				
+				<div class="col-md-12">
 					<div class="field-title">Комментарий / Статус</div>
 					<div class="input-group input-group-lg">
-						<span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-file-text-o"></i></span>
+						
 						<input name="description" class="form-control" value="<?=$client['description']?>" >
 						<div class="input-group-btn">
 							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"  tabindex="-1">
@@ -72,21 +117,21 @@
 						<div class="btn btn-danger" onclick="$(this).parent().remove()">X</div>
 					</div>
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<div class="field-title">Skype</div>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-skype"></i></span>
 						<input type="text" class="form-control" name="skype" value="<?=$client['skype']?>" placeholder="Skype" aria-describedby="basic-addon-skype">
 					</div>
 				</div>
-				<div class="col-md-2">
+				<div class="col-md-3">
 					<div class="field-title">E-mail</div>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon-email"><i class="fa fa-envelope-o"></i></span>
 						<input type="email" class="form-control" name="email" value="<?=$client['email']?>" placeholder="E-mail" aria-describedby="basic-addon-email">
 					</div>
 				</div>
-				<div class="col-md-5 cf-only-place cf-only-place-0 cf-only-place-1">
+				<div class="col-md-6 cf-only-place cf-only-place-0 cf-only-place-1">
 					<div class="field-title">Адрес</div>
 					<div class="input-group ">
 						<span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-location-arrow"></i></span>
@@ -95,58 +140,12 @@
 				</div>
 			</div>
 			<div class="row cf-row cf-row-cost">
-				<div class="col-md-3">
-					<div class="field-title">Место / Ставка</div>
-					<div class="input-group">
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"  tabindex="-1">
-								<span class="client-status cd-place cd-place-<?=$client['place']?>"><?=client_model::$places[$client['place']]?></span></button>
-							<ul class="dropdown-menu" role="menu">
-								<?php foreach(client_model::$places as $place => $place_name) { 
-									?>
-								<li>
-									<a herf="#" onclick="clients.setPlace(<?=$place?>);" data-value="<?=$place?>">
-										<span class="cd-place cd-place-<?=$place?>" title="<?=$place_name?>"><?=$place_name?></span>
-									</a>
-								</li>
-								<?php } ?>
-							</ul>
-						</div>
-						
-						<input type="number" class="form-control" name="data[cost]" value="<?=$client['data']['cost']?>" placeholder="Ставка" aria-describedby="basic-addon-skype">
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"  tabindex="-1"> <span class="client-data-duration"><?=$client['data']['duration']?></span> мин. </button>
-							
-							<ul class="dropdown-menu pull-right" role="menu">
-								<li><a href="#" onclick="$('.client-data-duration').html($(this).data('value')); $('input.data-duration').val($(this).data('value'));" data-value="60">60 мин.</a></li>
-								<li><a href="#" onclick="$('.client-data-duration').html($(this).data('value')); $('input.data-duration').val($(this).data('value'));" data-value="90">90 мин.</a></li>
-								<li><a href="#" onclick="$('.client-data-duration').html($(this).data('value')); $('input.data-duration').val($(this).data('value'));" data-value="120">120 мин.</a></li>
-								<li><a href="#" onclick="$('.client-data-duration').html($(this).data('value')); $('input.data-duration').val($(this).data('value'));" data-value="180">180 мин.</a></li>
-							</ul>
-							
-						</div>
-							
-					</div>
-					
-				</div>
-				<div class="col-md-2">
-					<div class="field-title">Номер заказа</div>
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-skype"></i></span>
-						<input type="text" class="form-control" name="external_id" value="<?=$client['external_id']?>" placeholder="Номер на ВР">
-						<div class="input-group-btn">
-						<button type="button" class="btn btn-default" tabindex="-1"><a href="http://stavropol.repetitors.info/backoffice/p.php?o=<?=$client['external_id']?>" target="_blank">Открыть</a></button>
-							</div>
-					</div>
-				</div>
-				
-				
 				<?php if (!empty($client['external_id'])) { ?>
 				<div class="col-md-3">
 					<div class="field-title">Цена заказа</div>
 					<div class="input-group">
 						<span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-times"></i></span>
-						<input type="number" class="form-control" name="data[tax]" value="<?=(!empty($client['data']['tax']) ? $client['data']['tax'] : '')?>" placeholder="Цена заказа">
+						<input type="number" class="form-control" name="data[tax]" value="<?=(isset($client['data']['tax']) ? $client['data']['tax'] : '')?>" placeholder="Цена заказа">
 						<?php if (empty($client['data']['tax_paid'])) { ?>
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-default" tabindex="-1" onclick="clients.payTax();">Оплатить</button>

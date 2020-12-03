@@ -49,6 +49,9 @@ class Finance extends CI_Controller {
 		);
 
 		$data = array();
+		
+		$this->stash['weekly_finance'] = $this->finance_model->weekly_finance();
+		$this->stash['monthly_finance'] = $this->finance_model->monthly_finance();
 
 		$this->stash['user'] = $this->user_model->get_by_id($this->id);
 		$this->stash['lessons'] = $this->lesson_model->get();

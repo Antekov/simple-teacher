@@ -98,6 +98,14 @@ class Finance_model extends CI_Model
 		return $payments;
 	}
 
+	public function weekly_finance() {
+		return $this->db->query('SELECT * FROM weekly_finance')->result_array();
+	}
+
+	public function monthly_finance() {
+		return $this->db->query('SELECT * FROM monthly_finance')->result_array();
+	}
+
 	public function get_by_id($id) {
 		$payments = $this->get(array('id' => $id));
 		$payment = (!empty($payments[$id]) ? $payments[$id] : array());
