@@ -177,7 +177,20 @@ class Lesson_model extends CI_Model
 		
 		$lesson = $this->db->from(T_LESSONS)->where('id', $data['id'])->get()->row_array();
 		
-		if ($lesson['status'] == lesson_model::S_DRAFT) {
+		if ($lesson['status'] == lesson_model::S_COMPLETE) {
+			/* 
+			$this->db->where('lesson_id', $lesson['id'])->delete(T_FINANCES);
+					$this->db->set(array(
+						'user_id' => $lesson['user_id'],
+						'type' => 1,
+						'math' => 1,
+						'amount' => $lesson['cost'],
+						'description' => 'Оплата занятия #'.$lesson['id'],
+						'lesson_id' => $lesson['id'],
+						'client_id' => $lesson['client_id'],
+						'payment_date' => date('Y-m-d H:i:s')
+					))->insert(T_FINANCES);
+			*/
 			/*
 			 *
 			 if (!empty($lesson['delivery_date']) && $lesson['delivery_date'] < date('Y-m-d 00:00:00', time()-24*3600)) {
