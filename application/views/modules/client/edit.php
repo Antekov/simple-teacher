@@ -11,7 +11,7 @@ $this->load->view('left_menu', $this->stash); ?>
                     <h1 class="client-title clearfix">
                         <span class="ct-place j-client-place"><i class="fa fa-skype"></i></span>
                         <span class="ct-name j-client-name"><?=($client['id'] == 0 ? 'Новый' : $client['name'])?></span>
-                        <span class="ct-date"><?=unix_to_human($client['create_date'], 'd mnth %Y')?></span>
+                        <span class="ct-date"><?=timestamp_to_human($client['create_date'], 'd mnth %Y')?></span>
                         <span class="ct-description"><?=$client['description']?></span>
                         <span class="ct-cost"><span class="ctc-cost"><?=$client['data']['cost']?></span><span
                                 class="ctc-duration"> руб. / <?=$client['data']['duration']?> мин.</span></span>

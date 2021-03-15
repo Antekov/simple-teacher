@@ -46,7 +46,7 @@
             <div class="input-group input-group-lg">
                 <span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-calendar"></i></span>
                 <input type="date" class="form-control lf-date-input"
-                    value="<?=unix_to_human($lesson['start_date'], 'Y-m-d')?>" placeholder="" autofocus>
+                    value="<?=timestamp_to_human($lesson['start_date'], 'Y-m-d')?>" placeholder="" autofocus>
             </div>
         </div>
         <div class="col-md-6 col-md-offset-3">
@@ -54,7 +54,7 @@
             <div class="input-group input-group-lg">
                 <span class="input-group-addon" id="basic-addon-skype"><i class="fa fa-clock-o"></i></span>
                 <input type="time" class="form-control lf-time-input"
-                    value="<?=unix_to_human($lesson['start_date'], 'H:i')?>" placeholder="Дата создания">
+                    value="<?=timestamp_to_human($lesson['start_date'], 'H:i')?>" placeholder="Дата создания">
             </div>
         </div>
     </div>

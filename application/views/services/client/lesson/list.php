@@ -7,9 +7,9 @@
 			</div>
 				<div class="liid-date">
 					
-					<span class="ld-date"><?=unix_to_human($lesson['start_date'], 'd mnth %Y')?></span>
+					<span class="ld-date"><?=timestamp_to_human($lesson['start_date'], 'd mnth %Y')?></span>
 					<div class="liidd-time">
-						<span class="ld-time-hour"><?=unix_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=unix_to_human($lesson['start_date'], 'i')?></span>
+						<span class="ld-time-hour"><?=timestamp_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=timestamp_to_human($lesson['start_date'], 'i')?></span>
 					</div>
 				</div>
 				<div class="liid-duration-cost">

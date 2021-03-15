@@ -5,13 +5,13 @@
 ?>
 	<div class="w-day" data-date="<?=date('Y-m-d', $current_time)?>" data-weekday="<?=((date('w', $current_time))%7)?>">
 		<div class="wd-title">
-			<span class="wdt-weekday"><?=unix_to_human($current_date, 'W')?></span>
-			<span class="wdt-date"><?=unix_to_human($current_date, 'd.m')?></span>
+			<span class="wdt-weekday"><?=timestamp_to_human($current_date, 'W')?></span>
+			<span class="wdt-date"><?=timestamp_to_human($current_date, 'd.m')?></span>
 		</div>
 	<?php for ($hour = 0; $hour < 24; $hour++) { ?>
-		<div class="wd-hour" data-hour="<?=$hour?>" data-date="<?=$current_date?>">
-			<div class="wdh-half"></div>
-			<div class="wdh-half"></div>
+		<div class="wd-hour" data-hour="<?=$hour?>">
+			<div class="wdh-half" data-hour="<?=$hour?>" data-minute="00" data-date="<?=$current_date?>"></div>
+			<div class="wdh-half" data-hour="<?=$hour?>" data-minute="30" data-date="<?=$current_date?>"></div>
 		</div>
 	<?php } ?>
 	</div>
@@ -25,7 +25,7 @@
 				</div>
 				<div class="tlii-data">
 					<div class="tliid-time" >
-						<span class="ld-time-hour"><?=unix_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=unix_to_human($lesson['start_date'], 'i')?></span>
+						<span class="ld-time-hour"><?=timestamp_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=timestamp_to_human($lesson['start_date'], 'i')?></span>
 					</div>
 					<div class="tliid-client" title="<?=$lesson['client_description']?>">
 						<span class="cd-name" ><span class="cd-place cd-place-<?=$lesson['place']?>"></span> <?=$lesson['name']?></span>
@@ -73,7 +73,7 @@
 				 data-duration="<?=$lesson['duration']?>" data-id="-1">
 				<div class="tlii-data">
 					<div class="tliid-time">
-						<span class="ld-time-hour"><?=unix_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=unix_to_human($lesson['start_date'], 'i')?></span>
+						<span class="ld-time-hour"><?=timestamp_to_human($lesson['start_date'], 'H')?></span><span class="ld-time-minute"><?=timestamp_to_human($lesson['start_date'], 'i')?></span>
 					</div>
 					<div class="tliid-client">
 						<span class="cd-name"><?=$lesson['name']?></span>
@@ -200,14 +200,16 @@
 		setElement(el);
 	});
 
-	$('.w-day .wd-hour').droppable({
+	$('.w-day .wdh-half').droppable({
 		accept: '[role="lesson"]',
 		over: function(event, ui) {
 			//console.log(event);
 			//$(event.target).css({border: '3px solid #000'});
 			var hour = $(event.target).data('hour');
+			var minute = $(event.target).data('minute');
 
 			ui.draggable.find('.ld-time-hour').html(hour);
+			ui.draggable.find('.ld-time-minute').html(minute);
 			//ui.draggable.find('.ld-time-minute').html($(event.target).offset().top - ui.draggable.offset().top);
 			//ui.draggable.$(event.target).data('', )
 			//hideHours(Math.min(hour-2, minHour), Math.max(hour+2,maxHour));
@@ -219,16 +221,17 @@
 
 			var data = ui.draggable.data();
 			var hour = $(event.target).data('hour');
+			var minute = $(event.target).data('minute');
 			var ui = ui;
 			$.post('/services/lesson/set/',
-				{id: data.id, start_date: $(event.target).data('date')+ ' ' + hour + ':00:00'},
+				{id: data.id, start_date: $(event.target).data('date')+ ' ' + hour + ':' + minute + ':00'},
 				function(data) {
 					if (data.status != 1) {
 						alert('Error');
 
 
 					} else {
-						ui.draggable.data({'date': $(event.target).data('date'), 'hour': hour, minute: '00'});
+						ui.draggable.data({'date': $(event.target).data('date'), 'hour': hour, minute: minute});
 					}
 					setElement(ui.draggable[0]);
 				}

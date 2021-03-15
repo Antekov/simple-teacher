@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
-
 /* Google App Client Id */
 define('CLIENT_ID', '232716993254-eov94nsibthjm2b7flk2bljpv2716l7p.apps.googleusercontent.com');
 
@@ -10,7 +8,6 @@ define('CLIENT_ID', '232716993254-eov94nsibthjm2b7flk2bljpv2716l7p.apps.googleus
 define('CLIENT_SECRET', 'PoYvVeaWivnM1MwhA8XXfD6D');
 
 /* Google App Redirect Url */
-
 define('CLIENT_REDIRECT_URL', 'http://'.$_SERVER['SERVER_NAME'].'/authentication/gauth/');
 
 // $client_id, $redirect_uri & $client_secret come from the settings
@@ -125,7 +122,7 @@ class Authentication extends CI_Controller {
 			$login = $this->input->post('login', TRUE);
 			$password = $this->input->post('pass', TRUE);
 
-				$users = $this->db->select('*')->from('users')->where(array('login' => $login, 'password' => md5($password)))->get()->result_array();
+				$users = $this->db->select('*')->from('users')->where(array('LOWER(login)' => strtolower($login), 'password' => md5($password)))->get()->result_array();
 
 			if (count($users) == 1)	 {
 			    $user = $users[0];
@@ -168,7 +165,7 @@ class Authentication extends CI_Controller {
 			$password = $this->input->post('pass', TRUE);
 			$password2 = $this->input->post('pass2', TRUE);
 
-			$users = $this->db->select('*')->from('users')->where(array('login' => $login))->get()->result_array();
+			$users = $this->db->select('*')->from('users')->where(array('LOWER(login)' => strtolower($login)))->get()->result_array();
 
 			if (count($users) > 0)	 {
 				$this->auth->unset_authenticated();
@@ -186,7 +183,7 @@ class Authentication extends CI_Controller {
 					'parent_id' => 1
 				));
 
-				$users = $this->db->select('*')->from('users')->where(array('login' => $login, 'password' => md5($password)))->get()->result_array();
+				$users = $this->db->select('*')->from('users')->where(array('LOWER(login)' => strtolower($login), 'password' => md5($password)))->get()->result_array();
 				$user = $users[0];
 				$this->auth->set_authenticated($user['id']);
 				if( $this->stash['return'] == ''){
@@ -202,13 +199,5 @@ class Authentication extends CI_Controller {
 		}
 		
 		$this->load->view('authentication/registration', $this->stash);
-	}
-
-	private function check_auth_level(){
-		$ip = ( !isset($_SERVER['REMOTE_ADDR1']) ) ? $_SERVER['HTTP_X_REAL_IP'] : $_SERVER['REMOTE_ADDR1'];
-		if( in_array( $ip, $this->config->item('inner_ip')) ){
-			return true;
-		}
-		return false;
 	}
 }

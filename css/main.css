@@ -1275,10 +1275,12 @@
 .wd-hour[data-hour="21"]:before { content: '21'; }
 .wd-hour[data-hour="22"]:before { content: '22'; }
 
-.wdh-half:first-child {
+.wdh-half {
 	height: 1.5em;
-	border-bottom: 1px solid #EEE;
+}
 
+.wdh-half:first-child {
+	border-bottom: 1px solid #EEE;
 }
 
 .ta-center {
