@@ -109,25 +109,27 @@ CREATE
 VIEW IF NOT EXISTS monthly_finance
 AS
 SELECT
-  year(`f`.`payment_date`) AS `year`,
-  month(`f`.`payment_date`) AS `month`,
-  SUM((`f`.`amount` * `f`.`math`)) AS `SUM(f.amount * f.math)`
-FROM `finances` `f`
-GROUP BY year(`f`.`payment_date`),
-         month(`f`.`payment_date`)
-ORDER BY year(`f`.`payment_date`) DESC, month(`f`.`payment_date`) DESC;
+strftime('%Y', `f`.`payment_date`) AS `year`,
+strftime('%m', `f`.`payment_date`) AS `month`,
+SUM((CASE `f`.`math` WHEN 1 THEN `f`.`amount` ELSE 0 END)) AS `Profit`,
+SUM((CASE `f`.`math` WHEN -(1) THEN -(`f`.`amount`) ELSE 0 END)) AS `Loss`,
+SUM((`f`.`amount` * `f`.`math`)) AS `Total Profit`FROM `finances` `f` JOIN lessons l ON f.lesson_id = l.id
+WHERE l.start_date <= CURRENT_TIMESTAMP
+GROUP BY strftime('%Y', `f`.`payment_date`), strftime('%m',`f`.`payment_date`)
+ORDER BY strftime('%Y', `f`.`payment_date`) DESC, strftime('%m', `f`.`payment_date`) DESC
 
 CREATE
 VIEW IF NOT EXISTS weekly_finance
 AS
 SELECT
-  year(`f`.`payment_date`) AS `year`,
-  week(`f`.`payment_date`, 0) AS `week`,
-  SUM((`f`.`amount` * `f`.`math`)) AS `SUM(f.amount * f.math)`
-FROM `finances` `f`
-GROUP BY year(`f`.`payment_date`),
-         week(`f`.`payment_date`, 0)
-ORDER BY year(`f`.`payment_date`) DESC, week(`f`.`payment_date`, 0) DESC;
+strftime('%Y', `f`.`payment_date`) AS `year`,
+strftime('%W', `f`.`payment_date`) AS `week`,
+SUM((CASE `f`.`math` WHEN 1 THEN `f`.`amount` ELSE 0 END)) AS `Profit`,
+SUM((CASE `f`.`math` WHEN -(1) THEN -(`f`.`amount`) ELSE 0 END)) AS `Loss`,
+SUM((`f`.`amount` * `f`.`math`)) AS `Total Profit`FROM `finances` `f` JOIN lessons l ON f.lesson_id = l.id
+WHERE l.start_date <= CURRENT_TIMESTAMP
+GROUP BY strftime('%Y', `f`.`payment_date`), strftime('%W',`f`.`payment_date`)
+ORDER BY strftime('%Y', `f`.`payment_date`) DESC, strftime('%W', `f`.`payment_date`) DESC
 
 INSERT INTO users(id, login, password, email, name, address, phones, description, parent_id, is_group, uniqueid, status, data, last_update, skype) VALUES
 (1, '', '', NULL, 'Сотрудники', NULL, NULL, NULL, 0, 1, NULL, 1, NULL, '2014-01-09 12:11:40', NULL);
