@@ -114,7 +114,7 @@ strftime('%m', `f`.`payment_date`) AS `month`,
 SUM((CASE `f`.`math` WHEN 1 THEN `f`.`amount` ELSE 0 END)) AS `Profit`,
 SUM((CASE `f`.`math` WHEN -(1) THEN -(`f`.`amount`) ELSE 0 END)) AS `Loss`,
 SUM((`f`.`amount` * `f`.`math`)) AS `Total Profit`FROM `finances` `f` JOIN lessons l ON f.lesson_id = l.id
-WHERE l.start_date <= CURRENT_TIMESTAMP
+WHERE l.start_date <= CURRENT_TIMESTAMP AND l.status = 2
 GROUP BY strftime('%Y', `f`.`payment_date`), strftime('%m',`f`.`payment_date`)
 ORDER BY strftime('%Y', `f`.`payment_date`) DESC, strftime('%m', `f`.`payment_date`) DESC
 
@@ -127,7 +127,7 @@ strftime('%W', `f`.`payment_date`) AS `week`,
 SUM((CASE `f`.`math` WHEN 1 THEN `f`.`amount` ELSE 0 END)) AS `Profit`,
 SUM((CASE `f`.`math` WHEN -(1) THEN -(`f`.`amount`) ELSE 0 END)) AS `Loss`,
 SUM((`f`.`amount` * `f`.`math`)) AS `Total Profit`FROM `finances` `f` JOIN lessons l ON f.lesson_id = l.id
-WHERE l.start_date <= CURRENT_TIMESTAMP
+WHERE l.start_date <= CURRENT_TIMESTAMP AND l.status = 2
 GROUP BY strftime('%Y', `f`.`payment_date`), strftime('%W',`f`.`payment_date`)
 ORDER BY strftime('%Y', `f`.`payment_date`) DESC, strftime('%W', `f`.`payment_date`) DESC
 
