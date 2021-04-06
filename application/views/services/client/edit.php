@@ -172,7 +172,70 @@
 			</button>
 		</div>
 		<div class="tab-pane" id="schedule">
-			<div>В разработке...</div>
+			<div class="row">
+				<div class="col-md-4 col-sm-4">
+					<div id="schedules">
+					<?php if (!empty($client['data']['schedule'])) {
+						foreach ($client['data']['schedule'] as $schedule) {
+							$weekdays = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+							$parts = explode(',', $schedule); 
+						?>
+						<div >
+							<div class="input-group">
+								<input type="hidden" name="data[schedule][]" value="<?=$schedule?>">
+								<div class=""><span class="cs-weekday"><?=$weekdays[$parts[0]]?></span> <span class="cs-time"><?=$parts[1]?></span></div>
+								<div class="input-group-btn">
+									<div class="btn btn-danger" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></div>
+								</div>
+							</div>
+						</div>
+					<?php }} ?>
+					</div>
+				</div>
+			</div>
+			<div id="new_schedule" style="display: none">
+				<div class="input-group">
+					<input type="hidden" value="">
+					<div class=""><span class="cs-weekday"></span> <span class="cs-time"></span></div>
+					<div class="input-group-btn">
+						<div class="btn btn-danger" onclick="$(this).parent().parent().remove()"><i class="fa fa-times"></i></div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 col-sm-4">
+					<div class="input-group">
+						<div class="input-group-addon dropdown-toggle j-schedule-weekday" data-toggle="dropdown" tabindex="-1" data-value=""> ... </div>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#" onclick="$('.j-schedule-weekday').text($(this).text()); $('.j-schedule-weekday').data('value', $(this).data('value'));" data-value="1">ПН</a></li>
+							<li><a href="#" onclick="$('.j-schedule-weekday').text($(this).text()); $('.j-schedule-weekday').data('value', $(this).data('value'));" data-value="2">ВТ</a></li>
+							<li><a href="#" onclick="$('.j-schedule-weekday').text($(this).text()); $('.j-schedule-weekday').data('value', $(this).data('value'));" data-value="3">СР</a></li>
+							<li><a href="#" onclick="$('.j-schedule-weekday').text($(this).text()); $('.j-schedule-weekday').data('value', $(this).data('value'));" data-value="4">ЧТ</a></li>
+							<li><a href="#" onclick="$('.j-schedule-weekday').text($(this).text()); $('.j-schedule-weekday').data('value', $(this).data('value'));" data-value="5">ПТ</a></li>
+							<li><a href="#" onclick="$('.j-schedule-weekday').text($(this).text()); $('.j-schedule-weekday').data('value', $(this).data('value'));" data-value="6">СБ</a></li>
+							<li><a href="#" onclick="$('.j-schedule-weekday').text($(this).text()); $('.j-schedule-weekday').data('value', $(this).data('value'));" data-value="0">ВС</a></li>
+						</ul>
+						
+						<input class="form-control j-schedule-time" type="time" value="00:00"/>
+						<div class="input-group-btn">
+							<input type="text" class="btn btn-default phone-comment" tabindex="-1" value="<?=$d?>" style="<?=(intval($d).'' == $d ? 'display: none;' : '')?>">
+							<button type="button" class="btn btn-default" tabindex="-1" onclick="
+							if ($('.j-schedule-time').val() != '00:00' && $('.j-schedule-weekday').data('value') !== '') {
+								 const weekdays = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+								 let el = $('#new_schedule').clone();
+								 el.appendTo($('#schedules')).show();
+								 $('input', el).attr('name', 'data[schedule][]').val($('.j-schedule-weekday').data('value') + ',' + $('.j-schedule-time').val());
+								 $('.cs-weekday', el).text(weekdays[$('.j-schedule-weekday').data('value')]);
+								 $('.cs-time', el).text($('.j-schedule-time').val());
+								 $('.j-schedule-weekday').data('value', '').text('...');
+								 $('.j-schedule-time').val('00:00');
+								}">
+								<i class="fa fa-plus"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </form>

@@ -118,8 +118,7 @@ class Client_model extends CI_Model
 				$clients[$id]['data']['tax_paid'] = $client['tax_paid'];
 			}
 
-			//$vendors[$id]['phone'] = (array) json_decode($vendor['phone'], true);
-			//$vendors[$id]['email'] = (array) json_decode($vendor['email'], true);
+			
 		}
 
 		return $clients;
@@ -354,18 +353,13 @@ class Client_model extends CI_Model
 		if (isset($all_data['data']['tax'])) {
 			$this->save_data($data['id'], 'tax', $all_data['data']['tax']);
 		}
-		/*
-		if ($staff_groups !== false) {
-			$this->db->where('user_id', $data['id'])->delete(T_SYSTEM_USERS_TO_GROUPS);
-			$groups = $this->get_groups();
 
-			foreach ($staff_groups as $group_id) {
-				if (isset($groups[$group_id])) {
-					$this->db->insert(T_SYSTEM_USERS_TO_GROUPS, array('user_id' => $data['id'], 'user_group_id' => $group_id));
-				}
-			}
+		if (isset($all_data['data']['schedule'])) {
+			$this->save_data($data['id'], 'schedule', $all_data['data']['schedule']);
+		} else {
+			$this->save_data($data['id'], 'schedule', array());
 		}
-		*/
+		
 		return $data;
 	}
 

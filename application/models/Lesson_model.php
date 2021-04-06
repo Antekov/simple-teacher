@@ -142,18 +142,19 @@ class Lesson_model extends CI_Model
 	public function save($data) {
 		$all_data = $data;
 		if (empty($data['id'])) {
-
-
 			$client = $this->client_model->get_by_id($data['client_id']);
 			$data['place'] = $client['place'];
 			$data['client_cost'] = $client['data']['cost'];
 			$data['client_duration'] = $client['data']['duration'];
+			$data['id'] = 0;
+		}
+
+		if (empty($data['duration'])) {
+			$data['duration'] = $data['client_duration'];
 		}
 		$old_lesson = $this->get_by_id($data['id']);
 		$data['data'] = (!empty($old_lesson) ? $old_lesson['data'] : $this->default_data);
 		$data['cost'] = floatval(round($data['client_cost'] * floatval($data['duration']))/$data['client_duration']);
-		
-
 		
 		foreach ($data as $field => $value) {
 			if (!in_array($field, $this::$fields)) {

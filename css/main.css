@@ -1260,13 +1260,13 @@
 .week {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: flex-start;
+	justify-content: space-evenly;
 	/* padding: 1em; */
 }
 
 .w-day {
 	width: 13em;
-	margin: 0 auto 1em;
+	margin-bottom: 1em;
 	border: 1px solid #EDEDD4;
 }
 

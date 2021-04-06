@@ -75,6 +75,80 @@ class Lesson extends CI_Controller
 		$this->stash['json'] = array('status' => 1);
 	}
 
+	public function delete($id) {
+		$json = array('success' => 1);
+		if (!empty($id)) {
+			$this->lesson_model->delete($id);
+		}
+		$this->stash['json'] = array('status' => 1);
+		$this->load->view('json', $this->stash);
+	}
+
+
+	public function fill() {
+		$json = array('success' => 1);
+		$data = $this->input->post(NULL, true);
+		try {
+			if (isset($data['week'])) {
+				$data['date_from'] = date('Y-m-d', strtotime($data['week']));
+				$data['date_to'] = date('Y-m-d 23:59:59', strtotime($data['week']) + 24 * 3600 * 6);
+			}
+
+			if (empty($data['date_to']) || $data['date_to'] < date('Y-m-d H:i:s')) {
+				throw new Exception();
+			}
+
+			$json['data'] = $this->stash['data'] = $data;
+			$json['lessons'] = $this->stash['lessons'] = $this->lesson_model->get($data);
+
+			$clients = $this->client_model->get(array('status'=>client_model::S_ACTIVE));
+
+			foreach ($clients as $client) {
+				if (!empty($client['data']['schedule'])) {
+					$lessons = $this->lesson_model->get(array(
+						'client_id' => $client['id'], 
+						'date_from' => date("Y-m-d", strtotime($data['week'])),
+						'date_to'=> date("Y-m-d 23:59:59", strtotime($data['week']) + 24 * 3600 * 6)
+						));
+					
+					foreach ($client['data']['schedule'] as $schedule) {
+						$parts = explode(',', $schedule);
+						$lesson_data = array();
+						$lesson_data['start_date'] = date("Y-m-d {$parts[1]}:00", strtotime($data['week']) + 24 * 3600 * (($parts[0] + 6) % 7));
+						$lesson_data['client_id'] = $client['id'];
+						$found = false;
+						foreach ($lessons as $lesson) {
+							if ($lesson['start_date'] == $lesson_data['start_date']) {
+								$found = true;
+								//print('Found\n');
+								break;
+							}
+						}
+						if (!$found) {
+							$lesson_data = $this->lesson_model->save($lesson_data);
+							//print_r($lesson_data);
+						}
+						
+					}
+				}
+			}
+			$json['data'] = $this->stash['data'] = $data;
+			$json['lessons'] = $this->stash['lessons'] = $this->lesson_model->get($data);
+			$data['clients'] = $clients;
+
+
+			$json['result'] = $this->load->view('/services/lesson/get', $this->stash, true);
+			$json['type'] = 'array';
+		} catch (Exception $e) {
+			$json['success'] = 0;
+			$json['error'] = $e->getTraceAsString();
+		}
+
+		header('Content-Type: application/json; charset=utf-8');
+		echo json_encode_fixed($json);
+
+	}
+
 	public function get() {
 		$json = array('success' => 1);
 		$data = $this->input->post(NULL, true);
@@ -100,9 +174,6 @@ class Lesson extends CI_Controller
 
 		header('Content-Type: application/json; charset=utf-8');
 		echo json_encode_fixed($json);
-		exit;
-		$this->stash['json'] = $json;
-		$this->load->view('json', $this->stash);
 	}
 
 	public function edit($id, $client_id = 0) {

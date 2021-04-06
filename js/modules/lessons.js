@@ -15,6 +15,21 @@ var lessons = new function() {
 		);
 	};
 
+	this.fill_schedule = function() {
+		$('#lessons').html('<div class="loading"><i class="fa fa-spin fa-spinner"></i>Загружаем данные</div></div>');
+
+		$.post('/services/lesson/fill',
+			$('.j-lessons-dates-form').serialize(),
+			function(data) {
+				if (data.success == '1') {
+					$('#lessons').html(data.result);
+				} else {
+					self.init();
+				}
+			}
+		);
+	};
+
 	this.init_form = function() {
 		$('[type="week"]').change(function() {
 			self.init();
@@ -105,30 +120,21 @@ var lessons = new function() {
 	}
 	
 	this.delete = function(d) {
-		var d = d || {}
-		if (d.confirm == undefined) {
-			if (d.project_id != undefined) { projects.id = d.project_id; }
-			return g.confirm('Вы уверены, что хотите удалить бренд?', projects.delete, {project_id:projects.id, count:0, confirm:1}, {label_ok:'    Да    ', label_cancel:'Отмена'});
-		}
+		var url = '/services/lesson/delete/'+this.id+'/';
 		
-		if (d.project_id != undefined) {
-			
-			g.overlay(true);
-			$.ajax({
-				type: "GET",
-				url: '/projects/delete/'+d.project_id,
-				success: function(data) {
-					g.overlay(false);
-					if (data.status == 1) {
-						projects.close();
-						projects.init();
-					} else if (data.status == 2) {
-						g.alert('У бренда есть артикулы!<br><br>Для удаления этого бренда:<br>- выберите в поле "<i>Сохранить как</i>" правильный бренд для этих артикулов<br>- нажмите кнопку "<i>Сохранить</i>"')
-					}
-				},
-				dataType: 'json'
-			});
-		}
+		g.overlay(true);
+		
+		$.ajax({
+			type: "GET",
+			url: url,
+			success: function(data) {
+				if (data.status != -1) {
+					lessons.init();
+				}
+				
+			},
+			dataType: 'json'
+		});
 	}
 	
 	this.add_comment = function(user_id, $comment) {

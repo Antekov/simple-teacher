@@ -16,7 +16,7 @@
 	<?php } ?>
 	</div>
 <?php } ?>
-	<div class="timetable-lesson-items">
+	
 		<?php foreach ($lessons as $lesson) { ?>
 			<div class="tli-item" role="lesson" data-date="<?=date('Y-m-d', strtotime($lesson['start_date']))?>" data-weekday="<?=date('w', strtotime($lesson['start_date']))?>" data-hour="<?=date('H', strtotime($lesson['start_date']))?>" data-minute="<?=date('i', strtotime($lesson['start_date']))?>"
 				 data-duration="<?=$lesson['duration']?>" data-id="<?=$lesson['id']?>">
@@ -37,6 +37,7 @@
 					<button class="btn btn-success btn-block" onclick="lessons.status(<?=lesson_model::S_ACTIVE?>)"><i class="fa fa-play"></i> Назначить</button>
 					<button class="btn btn-warning btn-block" onclick="lessons.status(<?=lesson_model::S_PAID?>)"><i class="fa fa-money"></i> Оплачено</button>
 					<button class="btn btn-deafult btn-block" data-toggle="modal" data-target="#lessonEditModal" onclick="$('#lessonEditModal .modal-body').html(''); $.get('/services/lesson/edit/<?=$lesson['id']?>/<?=$lesson['client_id']?>', function(html) { $('#lessonEditModal .modal-body').html(html); })"><i class="fa fa-edit"></i> Правка</button>
+					<button class="btn btn-danger btn-block" onclick="lessons.delete();"><i class="fa fa-times"></i> Удалить</button>
 				<?php } ?>
 				<?php if ($lesson['status'] == lesson_model::S_ACTIVE || $lesson['status'] == lesson_model::S_PAID) { ?>
 					<?php if ($lesson['start_date'] < date('Y-m-d H:i:s')) { ?>
@@ -57,7 +58,8 @@
 				</div>
 			</div>
 		<?php } ?>
-	</div>
+	
+	<!--
 	<div class="timetable-busy-time-items">
 		<?php
 		
@@ -83,6 +85,7 @@
 			</div>
 		<?php } }?>
 	</div>
+	-->
 </div>
 <script>
 	var minHour = 24;
