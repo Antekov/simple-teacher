@@ -58,7 +58,7 @@
 					<div class="input-group input-group-lg">
 						<input type="text" class="form-control" name="external_id" value="<?=$client['external_id']?>" placeholder="Номер на ВР">
 						<div class="input-group-btn">
-						<button type="button" class="btn btn-default" tabindex="-1"><a href="http://stavropol.repetitors.info/backoffice/p.php?o=<?=$client['external_id']?>" target="_blank">Открыть</a></button>
+						<button type="button" class="btn btn-default" tabindex="-1"><a href="https://profi.ru/backoffice/n.php?o=<?=$client['external_id']?>" target="_blank">Открыть</a></button>
 							</div>
 					</div>
 				</div>
