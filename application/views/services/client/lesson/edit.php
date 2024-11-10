@@ -73,6 +73,8 @@
                         </button>
                         <ul class="dropdown-menu pull-right" role="menu">
                             <li><a href="#" onclick="$('input.data-duration').val($(this).data('value'));"
+                                    data-value="45">45 мин.</a></li>
+                            <li><a href="#" onclick="$('input.data-duration').val($(this).data('value'));"
                                     data-value="60">1 ч. (60 мин.)</a></li>
                             <li><a href="#" onclick="$('input.data-duration').val($(this).data('value'));"
                                     data-value="90">1,5 ч. (90 мин.)</a></li>
